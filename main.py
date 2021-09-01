@@ -2,10 +2,10 @@ import kivy
 from RoomManager import RoomManager, Room
 kivy.require('2.0.0')
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty, StringProperty
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.widget import Widget
 
 from Containers import GameContainer, LeftPanelWidget, CenterPanelWidget, RightPanelWidget
 
@@ -41,41 +41,37 @@ class DynamicButton(Widget):
         self.display_text = text
 
     def on_press(self):
-        #print(str(self.display_text))
-        self.parent.button_pressed(self.display_text)
+        self.parent.parent.parent.parent.handle_button_presses(self.display_text)
 
     def set_display_text(self, text):
         self.display_text = text
 
 
 class GridManagerWidget(Widget):
-    room_manager_ref = None
+    room_manager_ref = ObjectProperty()
 
     def __init__(self, **kwargs):
         super(GridManagerWidget, self).__init__(**kwargs)
 
     def on_parent(self, this, parent):
-        self.room_manager_ref = self.parent.my_room_manager
+        self.parent.parent.assign_grid_manager_widget(self)
 
     def handle_button_presses(self, text):
         self.room_manager_ref.travel(text)
 
+    def set_room_manager_ref(self, ref):
+        self.room_manager_ref = ref
+        print("assigned: " + str(self.room_manager_ref))
 
-class GameWidget(Widget):
-    my_grid_manager_widget = None
-    my_room_manager = None
 
-    def __init__(self, **kwargs):
-        super(GameWidget, self).__init__(**kwargs)
-        self.my_room_manager = RoomManager()
-        home = Room("Home")
-        self.my_room_manager.add_room(home)
-        left_room = Room("Left Room")
-        self.my_room_manager.add_room(left_room)
-        right_room = Room("Right Room")
-        self.my_room_manager.add_room(right_room)
-        self.my_room_manager.add_connection(home, "Left", left_room, "Right")
-        self.my_room_manager.add_connection(home, "Right", right_room, "Left")
+class ScrollableWidget(ScrollView):
+    text = StringProperty('Test Test Test \n Test Test Test Test Test')
+
+    def on_parent(self, this, parent):
+        self.parent.parent.assign_scrollable_widget(self)
+
+    def add_text(self, text):
+        self.text += text + '\n'
 
 
 class TestApp(App):
