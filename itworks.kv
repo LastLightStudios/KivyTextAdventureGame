@@ -1,0 +1,70 @@
+#:kivy 2.0.0
+
+<LeftPanelWidget>
+    BoxLayout:
+		size: root.size
+		pos: root.pos
+        orientation: 'vertical'
+        Button:
+            text: 'character stats'
+            size_hint_y: 0.2
+        Button:
+            text: 'details'
+            size_hint_y: 0.5
+        Button:
+            text: 'idk fam'
+            size_hint_y: 0.3
+
+<CenterPanelWidget>
+    BoxLayout:
+		size: root.size
+		pos: root.pos
+        orientation: 'vertical'
+		Button:
+		    text: 'main screen'
+            size_hint_y: 0.7
+        ActionMenuWidget:
+            size_hint_y: 0.3
+
+<ActionMenuWidget>
+    GridLayout:
+		size: root.size
+		pos: root.pos
+        cols: 5
+        rows: 3
+
+<RightPanelWidget>
+    BoxLayout:
+		size: root.size
+		pos: root.pos
+        orientation: 'vertical'
+        Button:
+            text: 'map'
+            size_hint_y: 0.2
+        Button:
+            text: 'enemy details'
+            size_hint_y: 0.5
+        Button:
+            text: 'idk fam'
+            size_hint_y: 0.3
+
+<DynamicButton>
+    Button:
+		size: root.size
+		pos: root.pos
+        text: str(root.display_text)
+        on_press: root.increment
+
+<SpecialButton>
+	size: root.size
+	pos: root.pos
+    text: 'placeholder'
+
+<ContainerBox>:
+    orientation: 'horizontal'
+    LeftPanelWidget:
+        size_hint_x: 0.2
+    CenterPanelWidget:
+        size_hint_x: 0.6
+    RightPanelWidget:
+        size_hint_x: 0.2

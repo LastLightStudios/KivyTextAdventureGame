@@ -1,0 +1,17 @@
+#:kivy 2.0.0
+
+<ContainerBox>:
+    cols: 5
+    rows: 3
+
+<DynamicButton>
+    Button:
+        size: root.size
+        pos: root.pos
+        text: str(root.display_text)
+        on_press: root.on_press()
+
+<RootWidget>:
+    ContainerBox:
+        size: root.size
+        pos: root.pos
