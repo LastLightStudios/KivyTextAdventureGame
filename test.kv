@@ -1,6 +1,6 @@
 #:kivy 2.0.0
 
-<ContainerBox>:
+<GridButtons>:
     cols: 5
     rows: 3
 
@@ -11,7 +11,64 @@
         text: str(root.display_text)
         on_press: root.on_press()
 
-<RootWidget>:
-    ContainerBox:
+<GridManagerWidget>:
+    GridButtons:
         size: root.size
         pos: root.pos
+
+<GameWidget>:
+    GridManagerWidget:
+        size: root.size
+        pos: root.pos
+
+<LeftPanelWidget>
+    BoxLayout:
+		size: root.size
+		pos: root.pos
+        orientation: 'vertical'
+        Button:
+            text: 'character stats'
+            size_hint_y: 0.2
+        Button:
+            text: 'details'
+            size_hint_y: 0.5
+        Button:
+            text: 'idk fam'
+            size_hint_y: 0.3
+
+<CenterPanelWidget>
+    BoxLayout:
+		size: root.size
+		pos: root.pos
+        orientation: 'vertical'
+		Button:
+		    text: 'main screen'
+            size_hint_y: 0.7
+        GameWidget:
+            size_hint_y: 0.3
+
+
+<RightPanelWidget>
+    BoxLayout:
+		size: root.size
+		pos: root.pos
+        orientation: 'vertical'
+        Button:
+            text: 'map'
+            size_hint_y: 0.2
+        Button:
+            text: 'enemy details'
+            size_hint_y: 0.5
+        Button:
+            text: 'idk fam'
+            size_hint_y: 0.3
+
+
+<GameContainer>:
+    orientation: 'horizontal'
+    LeftPanelWidget:
+        size_hint_x: 0.2
+    CenterPanelWidget:
+        size_hint_x: 0.6
+    RightPanelWidget:
+        size_hint_x: 0.2

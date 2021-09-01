@@ -2,17 +2,20 @@ import kivy
 from RoomManager import RoomManager, Room
 kivy.require('2.0.0')
 from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
-from kivy.properties import StringProperty
+from kivy.properties import ObjectProperty, StringProperty
+
+from Containers import GameContainer, LeftPanelWidget, CenterPanelWidget, RightPanelWidget
 
 
-class ContainerBox(GridLayout):
+class GridButtons(GridLayout):
     button_list = []
     a = StringProperty("a")
 
     def __init__(self, **kwargs):
-        super(ContainerBox, self).__init__(**kwargs)
+        super(GridButtons, self).__init__(**kwargs)
         for i in range(0, 15):
             button = DynamicButton(self.a)
             self.button_list.insert(i, button)
@@ -45,11 +48,25 @@ class DynamicButton(Widget):
         self.display_text = text
 
 
-class RootWidget(Widget):
+class GridManagerWidget(Widget):
+    room_manager_ref = None
+
+    def __init__(self, **kwargs):
+        super(GridManagerWidget, self).__init__(**kwargs)
+
+    def on_parent(self, this, parent):
+        self.room_manager_ref = self.parent.my_room_manager
+
+    def handle_button_presses(self, text):
+        self.room_manager_ref.travel(text)
+
+
+class GameWidget(Widget):
+    my_grid_manager_widget = None
     my_room_manager = None
 
     def __init__(self, **kwargs):
-        super(RootWidget, self).__init__(**kwargs)
+        super(GameWidget, self).__init__(**kwargs)
         self.my_room_manager = RoomManager()
         home = Room("Home")
         self.my_room_manager.add_room(home)
@@ -60,13 +77,10 @@ class RootWidget(Widget):
         self.my_room_manager.add_connection(home, "Left", left_room, "Right")
         self.my_room_manager.add_connection(home, "Right", right_room, "Left")
 
-    def handle_button_presses(self, text):
-        self.my_room_manager.travel(text)
-
 
 class TestApp(App):
     def build(self):
-        return RootWidget()
+        return GameContainer()
 
 
 # Press the green button in the gutter to run the script.
