@@ -37,14 +37,18 @@ class RoomManager:
         if direction in self.current_room.connected_rooms:
             self.current_room = self.current_room.connected_rooms[direction]
             print("Entering: " + self.current_room.name)
-            return True
+            return self.current_room.description
         else:
             print("cannot travel in this direction")
-            return False
+            return "Cannot travel in this direction."
 
 
 class Room:
     def __init__(self, name):
+        self.description = None
         self.name = name
         self.connected_rooms = {}
         self.inventory = []
+
+    def set_desc(self, desc):
+        self.description = desc

@@ -35,13 +35,26 @@ class GameContainer(BoxLayout):
             print("created: " + str(self.room_manager))
             print("this container is " + str(self))
         home = Room("Home")
+        home.set_desc("This is the starting room.")
         self.room_manager.add_room(home)
         left_room = Room("Left Room")
+        left_room.set_desc("Welcome to the Left Room.")
         self.room_manager.add_room(left_room)
         right_room = Room("Right Room")
+        right_room.set_desc("Welcome to the dining room.")
         self.room_manager.add_room(right_room)
+        porch = Room("Porch")
+        porch.set_desc("This is the porch. There is a new nice view of the street.")
+        self.room_manager.add_room(porch)
+        living_room = Room("Living Room")
+        living_room.set_desc("This is living room. You can see a nice couch. To the right you can see the kitchen.")
+        kitchen = Room("Kitchen")
+        kitchen.set_desc("This is the kitchen. There is a dirty pot on the stove and two more in the sink.")
         self.room_manager.add_connection(home, "Left", left_room, "Right")
         self.room_manager.add_connection(home, "Right", right_room, "Left")
+        self.room_manager.add_connection(home, "Forward", living_room, "Backwards")
+        self.room_manager.add_connection(right_room, "Forward", kitchen, "Backwards")
+        self.room_manager.add_connection(living_room, "Right", kitchen, "Left")
         self.grid_manager_widget.set_room_manager_ref(self.room_manager)
 
     def assign_grid_manager_widget(self, widget):
@@ -57,5 +70,5 @@ class GameContainer(BoxLayout):
             self.scrollable_widget = widget
 
     def handle_button_presses(self, text):
-        self.room_manager.travel(text)
-        self.scrollable_widget.add_text(text)
+        scroll_text = self.room_manager.travel(text)
+        self.scrollable_widget.add_text(scroll_text)

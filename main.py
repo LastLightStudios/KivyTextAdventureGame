@@ -12,15 +12,13 @@ from Containers import GameContainer, LeftPanelWidget, CenterPanelWidget, RightP
 
 class GridButtons(GridLayout):
     button_list = []
-    a = StringProperty("a")
 
     def __init__(self, **kwargs):
         super(GridButtons, self).__init__(**kwargs)
         for i in range(0, 15):
-            button = DynamicButton(self.a)
+            button = DynamicButton()
             self.button_list.insert(i, button)
             self.add_widget(button)
-            self.a += "a"
         self.temp_set_directions()
 
     def temp_set_directions(self):
@@ -29,16 +27,12 @@ class GridButtons(GridLayout):
         self.button_list[6].set_display_text("Backwards")
         self.button_list[7].set_display_text("Right")
 
-    def button_pressed(self, text):
-        self.parent.handle_button_presses(text)
-
 
 class DynamicButton(Widget):
-    display_text = StringProperty("0")
+    display_text = StringProperty("")
 
-    def __init__(self, text, **kwargs):
+    def __init__(self, **kwargs):
         super(DynamicButton, self).__init__(**kwargs)
-        self.display_text = text
 
     def on_press(self):
         self.parent.parent.parent.parent.handle_button_presses(self.display_text)
@@ -65,7 +59,7 @@ class GridManagerWidget(Widget):
 
 
 class ScrollableWidget(ScrollView):
-    text = StringProperty('Test Test Test \n Test Test Test Test Test')
+    text = StringProperty('Welcome \n')
 
     def on_parent(self, this, parent):
         self.parent.parent.assign_scrollable_widget(self)
