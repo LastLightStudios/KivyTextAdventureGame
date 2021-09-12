@@ -68,9 +68,6 @@ class GridManagerWidget(Widget):
         for child in self.children:
             child.init_complete()
 
-    def on_parent(self, this, parent):
-        self.parent.parent.assign_grid_manager_widget(self)
-
     def handle_button_presses(self, text):
         self.room_manager_ref.travel(text)
 
@@ -85,9 +82,6 @@ class ScrollableWidget(ScrollView):
     def init_complete(self):
         for child in self.children:
             pass
-
-    def on_parent(self, this, parent):
-        self.parent.parent.assign_scrollable_widget(self)
 
     def add_text(self, text):
         self.text += text + '\n'

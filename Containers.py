@@ -34,9 +34,11 @@ class CenterPanelWidget(BoxLayout):
 
 
 class GameContainer(BoxLayout):
-    room_manager = ObjectProperty()
-    grid_manager_widget = ObjectProperty()
+    left_panel = ObjectProperty()
+    right_panel = ObjectProperty()
     scrollable_widget = ObjectProperty()
+    room_manager = ObjectProperty()
+    grid_manager = ObjectProperty()
 
     def __init__(self, **kwargs):
         super(GameContainer, self).__init__(**kwargs)
@@ -65,21 +67,9 @@ class GameContainer(BoxLayout):
         self.room_manager.add_connection(home, "Forward", living_room, "Backwards")
         self.room_manager.add_connection(right_room, "Forward", kitchen, "Backwards")
         self.room_manager.add_connection(living_room, "Right", kitchen, "Left")
-        self.grid_manager_widget.set_room_manager_ref(self.room_manager)
+        self.grid_manager.set_room_manager_ref(self.room_manager)
         for child in self.children:
             child.init_complete()
-
-    def assign_grid_manager_widget(self, widget):
-        if self.grid_manager_widget:
-            print("Error: tried to create extra grid manager widget")
-        else:
-            self.grid_manager_widget = widget
-
-    def assign_scrollable_widget(self, widget):
-        if self.scrollable_widget:
-            print("Error: tried to create extra grid manager widget")
-        else:
-            self.scrollable_widget = widget
 
     def handle_button_presses(self, text):
         scroll_text = self.room_manager.travel(text)
