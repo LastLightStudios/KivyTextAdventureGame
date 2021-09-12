@@ -1,9 +1,5 @@
 #:kivy 2.0.0
 
-<GridButtons>:
-    cols: 5
-    rows: 3
-
 <DynamicButton>
     Button:
         size: root.size
@@ -11,68 +7,61 @@
         text: str(root.display_text)
         on_press: root.on_press()
 
-<GridManagerWidget>:
-    GridButtons:
-        size: root.size
-        pos: root.pos
-
-<GameWidget>:
-    GridManagerWidget:
-        size: root.size
-        pos: root.pos
-
-<LeftPanelWidget>
-    BoxLayout:
-		size: root.size
-		pos: root.pos
-        orientation: 'vertical'
-        Button:
-            text: 'character stats'
-            size_hint_y: 0.2
-        Button:
-            text: 'details'
-            size_hint_y: 0.5
-        Button:
-            text: 'idk fam'
-            size_hint_y: 0.3
-
-<CenterPanelWidget>
-	size: root.size
-	pos: root.pos
-    orientation: 'vertical'
-	ScrollableWidget:
-    GridManagerWidget:
-        size_hint_y: 0.3
-
-<ScrollableWidget>
-    Label:
-        text: root.text
-        font_size: 32
-        text_size: self.width, None
-        size_hint_y: None
-        height: self.texture_size[1]
-
-<RightPanelWidget>
-    BoxLayout:
-		size: root.size
-		pos: root.pos
-        orientation: 'vertical'
-        Button:
-            text: 'map'
-            size_hint_y: 0.2
-        Button:
-            text: 'enemy details'
-            size_hint_y: 0.5
-        Button:
-            text: 'idk fam'
-            size_hint_y: 0.3
-
-
 <GameContainer>:
+    left_panel: left_panel
+    right_panel: right_panel
+    scrollable_widget: scrollable_widget
+    grid_manager: grid_manager
     orientation: 'horizontal'
     LeftPanelWidget:
+        id: left_panel
         size_hint_x: 0.2
+        BoxLayout:
+        	size: root.left_panel.size
+        	pos: root.left_panel.pos
+            orientation: 'vertical'
+            Button:
+                text: 'character stats'
+                size_hint_y: 0.2
+            Button:
+                text: 'details'
+                size_hint_y: 0.5
+            Button:
+                text: 'idk fam'
+                size_hint_y: 0.3
     CenterPanelWidget:
         size_hint_x: 0.6
+        orientation: 'vertical'
+        ScrollableWidget:
+            id: scrollable_widget
+        	Label:
+                text: root.scrollable_widget.text
+                font_size: 32
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
+        GridManagerWidget:
+            id: grid_manager
+            size_hint_y: 0.3
+            GridButtons:
+                id: grid
+                cols: 5
+                rows: 3
+                size: root.grid_manager.size
+                pos: root.grid_manager.pos
     RightPanelWidget:
+        id: right_panel
         size_hint_x: 0.2
+        BoxLayout:
+        	size: root.right_panel.size
+        	pos: root.right_panel.pos
+            orientation: 'vertical'
+            Button:
+                text: 'map'
+                size_hint_y: 0.2
+            Button:
+                text: 'enemy details'
+                size_hint_y: 0.5
+            Button:
+                text: 'idk fam'
+                size_hint_y: 0.3

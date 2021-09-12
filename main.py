@@ -48,7 +48,6 @@ class DynamicButton(Widget):
         self._command = None
 
     def on_press(self):
-        #self.parent.parent.parent.parent.handle_button_presses(self.display_text)
         if self._command:
             self._command.execute()
 
