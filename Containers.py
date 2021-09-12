@@ -11,16 +11,26 @@ class LeftPanelWidget(Widget):
     def __init__(self, **kwargs):
         super(LeftPanelWidget, self).__init__(**kwargs)
 
+    def init_complete(self):
+        pass
+
 
 class RightPanelWidget(Widget):
     def __init__(self, **kwargs):
         super(RightPanelWidget, self).__init__(**kwargs)
+
+    def init_complete(self):
+        pass
 
 
 class CenterPanelWidget(BoxLayout):
 
     def __init__(self, **kwargs):
         super(CenterPanelWidget, self).__init__(**kwargs)
+
+    def init_complete(self):
+        for child in self.children:
+            child.init_complete()
 
 
 class GameContainer(BoxLayout):
@@ -56,6 +66,8 @@ class GameContainer(BoxLayout):
         self.room_manager.add_connection(right_room, "Forward", kitchen, "Backwards")
         self.room_manager.add_connection(living_room, "Right", kitchen, "Left")
         self.grid_manager_widget.set_room_manager_ref(self.room_manager)
+        for child in self.children:
+            child.init_complete()
 
     def assign_grid_manager_widget(self, widget):
         if self.grid_manager_widget:
