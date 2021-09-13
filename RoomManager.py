@@ -17,11 +17,13 @@ class Map(object):
         if direction in self.current_room.connected_rooms:
             self.current_room = self.current_room.connected_rooms[direction]
             print("Entering: " + self.current_room.name)
-            return self.current_room.description
+            return True
         else:
             print("cannot travel in this direction")
-            return "Cannot travel in this direction."
+            return False
 
+    def get_current_room_desc(self):
+        return self.current_room.description
 
 @dataclass
 class RoomManager(object):
@@ -121,7 +123,7 @@ class RoomManager(object):
         right_room.create_new_edge("Backward", "Kitchen")
         kitchen.create_new_edge("Forward", "Right Room")
         living_room.create_new_edge("Right", "Kitchen")
-        kitchen.create_new_edge("Left", "Living room")
+        kitchen.create_new_edge("Left", "Living Room")
 
 
 @dataclass()

@@ -45,6 +45,14 @@ class GridManager(GridLayout):
         self.button_list[6].set_command(TravelCommand(client, "Backward"))
         self.button_list[7].set_command(TravelCommand(client, "Right"))
 
+    # the command_dict will be array_position:Command
+    def set_dynamic_commands(self, command_dict):
+        pass
+
+    def clear_button_text(self):
+        for button in self.button_list:
+            button.set_display_text("")
+
     def temp_set_directions(self):
         self.button_list[1].set_display_text("Forward")
         self.button_list[5].set_display_text("Left")
