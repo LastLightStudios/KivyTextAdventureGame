@@ -46,6 +46,7 @@ class GridManager(GridLayout):
         self.button_list[7].set_command(TravelCommand(client, "Right"))
 
     # the command_dict will be array_position:Command
+    # TODO determine if this is a better way?
     def set_dynamic_commands(self, command_dict):
         pass
 
@@ -58,12 +59,5 @@ class GridManager(GridLayout):
         self.button_list[5].set_display_text("Left")
         self.button_list[6].set_display_text("Backwards")
         self.button_list[7].set_display_text("Right")
-
-    def handle_button_presses(self, text):
-        self.room_manager_ref.travel(text)
-
-    def set_room_manager_ref(self, ref):
-        self.room_manager_ref = ref
-        print("assigned: " + str(self.room_manager_ref))
 
 

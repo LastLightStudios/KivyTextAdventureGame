@@ -43,8 +43,7 @@ class GameContainer(BoxLayout):
     def __init__(self, **kwargs):
         super(GameContainer, self).__init__(**kwargs)
         self.room_manager = RoomManager()
-        self.room_manager.create_new_map()
-        self.grid_manager.set_room_manager_ref(self.room_manager)
+        self.room_manager.load(r"Maps\NewFile2.txt")
         self.grid_manager.set_commands(self)
 
     def move_rooms(self, direction):
