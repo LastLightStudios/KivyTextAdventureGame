@@ -40,15 +40,11 @@
                 text_size: self.width, None
                 size_hint_y: None
                 height: self.texture_size[1]
-        GridManagerWidget:
+        GridManager:
             id: grid_manager
             size_hint_y: 0.3
-            GridButtons:
-                id: grid
-                cols: 5
-                rows: 3
-                size: root.grid_manager.size
-                pos: root.grid_manager.pos
+            cols: 5
+            rows: 3
     RightPanelWidget:
         id: right_panel
         size_hint_x: 0.2

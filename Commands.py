@@ -19,5 +19,6 @@ class TravelCommand(Command):
         self._direction = direction
 
     def execute(self) -> None:
-        self._root_container.scrollable_widget.add_text(self._root_container.room_manager.travel(self._direction))
+        print("executed")
+        self._root_container.scrollable_widget.add_text(self._root_container.room_manager.map.travel(self._direction))
 
