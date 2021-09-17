@@ -5,7 +5,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 
-from Commands import TravelCommand
+from Commands import InteractCommand, TravelCommand
 
 
 class LeftPanelWidget(Widget):
@@ -56,13 +56,18 @@ class GameContainer(BoxLayout):
         for key in self.room_manager.map.current_room.connected_rooms:
             self.grid_manager.button_list[self.convert_dir_to_button(key)].set_command(TravelCommand(self, key))
             self.grid_manager.button_list[self.convert_dir_to_button(key)].set_display_text(key)
+        for key in self.room_manager.map.current_room.inventory:
+            self.grid_manager.button_list[4].set_command(InteractCommand())
+            self.grid_manager.button_list[4].set_display_text("Interact")
 
     @staticmethod
     def convert_dir_to_button(direction):
         switcher = {
             "Forward": 1,
+            "Forwards": 1,
             "Left": 5,
             "Backward": 6,
+            "Backwards": 6,
             "Right": 7
         }
         return switcher.get(direction)

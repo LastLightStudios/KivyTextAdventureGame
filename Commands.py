@@ -14,7 +14,7 @@ class Command(ABC):
 
 class TravelCommand(Command):
 
-    def __init__(self, root_container, direction):
+    def __init__(self, root_container=None, direction="forgot to give direction"):
         self._root_container = root_container
         self._direction = direction
 
@@ -22,3 +22,12 @@ class TravelCommand(Command):
         print("executed")
         self._root_container.move_rooms(self._direction)
 
+
+class InteractCommand(Command):
+
+    def __init__(self, root_container=None):
+        self._root_container = root_container
+        pass
+
+    def execute(self) -> None:
+        print("Interact")
