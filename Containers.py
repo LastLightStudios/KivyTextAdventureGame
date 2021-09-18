@@ -61,14 +61,16 @@ class GameContainer(BoxLayout):
 
     def update_context_menu(self, command_dict):
         self.grid_manager.clear_buttons()
+        char_iter = 0
         for key, command in command_dict.items():
             if isinstance(command, InteractCommand):
-                if self.grid_manager.button_list[4].has_command():
-                    self.grid_manager.button_list[9].set_command(command)
-                    self.grid_manager.button_list[9].set_display_text(key)
+                if self.grid_manager.button_list[char_iter].has_command():
+                    char_iter += 1
+                    self.grid_manager.button_list[char_iter].set_command(command)
+                    self.grid_manager.button_list[char_iter].set_display_text(key)
                 else:
-                    self.grid_manager.button_list[4].set_command(command)
-                    self.grid_manager.button_list[4].set_display_text(key)
+                    self.grid_manager.button_list[char_iter].set_command(command)
+                    self.grid_manager.button_list[char_iter].set_display_text(key)
             elif isinstance(command, TravelCommand):
                 self.grid_manager.button_list[self.convert_dir_to_button(key)].set_command(command)
                 self.grid_manager.button_list[self.convert_dir_to_button(key)].set_display_text(key)
@@ -78,11 +80,11 @@ class GameContainer(BoxLayout):
     @staticmethod
     def convert_dir_to_button(direction):
         switcher = {
-            "Forward": 1,
-            "Forwards": 1,
-            "Left": 5,
-            "Backward": 6,
-            "Backwards": 6,
-            "Right": 7
+            "Forward": 6,
+            "Forwards": 6,
+            "Left": 10,
+            "Backward": 11,
+            "Backwards": 11,
+            "Right": 12
         }
         return switcher.get(direction)

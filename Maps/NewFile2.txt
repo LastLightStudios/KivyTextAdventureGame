@@ -22,7 +22,7 @@
                         }
                     },
                     "inventory": {},
-                    "characters": []
+                    "characters": ["Steve"]
                 },
                 "Right": {
                     "py/object": "RoomManager.Room",
