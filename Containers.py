@@ -1,10 +1,10 @@
 import kivy
 kivy.require('2.0.0')
-from RoomManager import Room, RoomManager
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 
+import RoomManager
 from Commands import InteractCommand, TravelCommand
 
 
@@ -42,23 +42,37 @@ class GameContainer(BoxLayout):
 
     def __init__(self, **kwargs):
         super(GameContainer, self).__init__(**kwargs)
-        self.room_manager = RoomManager()
+        self.room_manager = RoomManager
         self.room_manager.load(r"Maps\NewFile2.txt")
-        self.grid_manager.set_commands(self)
+        self.enter_room(self.room_manager.room_map.current_room)
+        self.grid_manager.set_root_container(self)
+
+    def enter_room(self, room):
+        self.update_log(room.get_room_desc())
+        self.update_context_menu(room.get_room_command_dict())
+
+    def update_log(self, new_text):
+        self.scrollable_widget.add_text(new_text)
 
     def move_rooms(self, direction):
-        if self.room_manager.map.travel(direction):
-            self.scrollable_widget.add_text(self.room_manager.map.get_current_room_desc())
+        if self.room_manager.room_map.travel(direction):
+            self.scrollable_widget.add_text(self.room_manager.room_map.get_current_room_desc())
             self.update_context_menu()
 
-    def update_context_menu(self):
+    def update_context_menu(self, command_dict):
         self.grid_manager.clear_button_text()
-        for key in self.room_manager.map.current_room.connected_rooms:
-            self.grid_manager.button_list[self.convert_dir_to_button(key)].set_command(TravelCommand(self, key))
+        for key in command_dict:
+            self.grid_manager.button_list[self.convert_dir_to_button(key)].set_command(command_dict[key])
             self.grid_manager.button_list[self.convert_dir_to_button(key)].set_display_text(key)
-        for key in self.room_manager.map.current_room.inventory:
-            self.grid_manager.button_list[4].set_command(InteractCommand())
-            self.grid_manager.button_list[4].set_display_text("Interact")
+
+
+
+        #for key in self.room_manager.room_map.current_room.connected_rooms:
+            #self.grid_manager.button_list[self.convert_dir_to_button(key)].set_command(TravelCommand(self, key))
+            #self.grid_manager.button_list[self.convert_dir_to_button(key)].set_display_text(key)
+        #for key in self.room_manager.room_map.current_room.inventory:
+            #self.grid_manager.button_list[4].set_command(InteractCommand())
+            #self.grid_manager.button_list[4].set_display_text("Interact")
 
     @staticmethod
     def convert_dir_to_button(direction):
@@ -70,4 +84,4 @@ class GameContainer(BoxLayout):
             "Backwards": 6,
             "Right": 7
         }
-        return switcher.get(direction)
+        return switcher.get(direction, 4)

@@ -8,6 +8,7 @@ from Commands import TravelCommand
 
 
 class DynamicButton(Widget):
+    root_container = ObjectProperty()
     display_text = StringProperty("")
 
     def __init__(self, **kwargs):
@@ -16,7 +17,7 @@ class DynamicButton(Widget):
 
     def on_press(self):
         if self._command:
-            self._command.execute()
+            self._command.execute(self.root_container)
 
     def set_command(self, command):
         self._command = command
@@ -27,7 +28,6 @@ class DynamicButton(Widget):
 
 class GridManager(GridLayout):
     button_list = []
-    room_manager_ref = ObjectProperty()
 
     def __init__(self, **kwargs):
         super(GridManager, self).__init__(**kwargs)
@@ -38,17 +38,16 @@ class GridManager(GridLayout):
             self.add_widget(button)
         self.temp_set_directions()
 
+    def set_root_container(self, root_container):
+        self.root_container = root_container
+        DynamicButton.root_container = self.root_container
+
     def set_commands(self, client):
-        self.root_container = self.parent.parent.parent
+        #self.root_container = self.parent.parent.parent
         self.button_list[1].set_command(TravelCommand(client, "Forward"))
         self.button_list[5].set_command(TravelCommand(client, "Left"))
         self.button_list[6].set_command(TravelCommand(client, "Backward"))
         self.button_list[7].set_command(TravelCommand(client, "Right"))
-
-    # the command_dict will be array_position:Command
-    # TODO determine if this is a better way?
-    def set_dynamic_commands(self, command_dict):
-        pass
 
     def clear_button_text(self):
         for button in self.button_list:

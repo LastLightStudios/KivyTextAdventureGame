@@ -1,10 +1,10 @@
 {
-    "py/object": "RoomManager.Map",
+    "py/object": "RoomManager.RoomMap",
     "rooms": {
         "Home": {
             "py/object": "RoomManager.Room",
             "name": "Home",
-            "map": {
+            "owner": {
                 "py/id": 0
             },
             "description": "This is the starting room.",
@@ -12,7 +12,7 @@
                 "Left": {
                     "py/object": "RoomManager.Room",
                     "name": "Left Room",
-                    "map": {
+                    "owner": {
                         "py/id": 0
                     },
                     "description": "Welcome to the Left Room.",
@@ -21,12 +21,13 @@
                             "py/id": 2
                         }
                     },
-                    "inventory": []
+                    "inventory": {},
+                    "characters": []
                 },
                 "Right": {
                     "py/object": "RoomManager.Room",
                     "name": "Right Room",
-                    "map": {
+                    "owner": {
                         "py/id": 0
                     },
                     "description": "Welcome to the dining room.",
@@ -37,84 +38,72 @@
                         "Forward": {
                             "py/object": "RoomManager.Room",
                             "name": "Kitchen",
-                            "map": {
+                            "owner": {
                                 "py/id": 0
                             },
                             "description": "This is the kitchen. There is a dirty pot on the stove and two more in the sink.",
                             "connected_rooms": {
-                                "Backward": {
-                                    "py/id": 7
+                                "Backwards": {
+                                    "py/id": 8
                                 },
                                 "Left": {
                                     "py/object": "RoomManager.Room",
                                     "name": "Living Room",
-                                    "map": {
+                                    "owner": {
                                         "py/id": 0
                                     },
                                     "description": "This is living room. You can see a nice couch. To the right you can see the kitchen.",
                                     "connected_rooms": {
-                                        "Backward": {
+                                        "Backwards": {
                                             "py/id": 2
                                         },
                                         "Right": {
-                                            "py/id": 9
+                                            "py/id": 10
                                         }
                                     },
-                                    "inventory": []
+                                    "inventory": {},
+                                    "characters": []
                                 }
                             },
-                            "inventory": []
+                            "inventory": {},
+                            "characters": []
                         }
                     },
-                    "inventory": []
+                    "inventory": {},
+                    "characters": []
                 },
                 "Forward": {
-                    "py/id": 11
+                    "py/id": 12
                 }
             },
-            "inventory": []
+            "inventory": {},
+            "characters": [
+                "Joe",
+                "Mama"
+            ]
         },
         "Left Room": {
             "py/id": 4
         },
         "Right Room": {
-            "py/id": 7
+            "py/id": 8
         },
         "Porch": {
             "py/object": "RoomManager.Room",
             "name": "Porch",
-            "map": {
+            "owner": {
                 "py/id": 0
             },
             "description": "This is the porch. There is a new nice view of the street.",
             "connected_rooms": {},
-            "inventory": []
+            "inventory": {},
+            "characters": []
         },
         "Living Room": {
-            "py/id": 11
+            "py/id": 12
         },
         "Kitchen": {
-            "py/id": 9
-        },
-        "New Room6": {
-            "py/object": "RoomManager.Room",
-            "name": "New Room6",
-            "map": {
-                "py/id": 0
-            },
-            "description": "",
-            "connected_rooms": {},
-            "inventory": []
-        },
-        "New Room7": {
-            "py/object": "RoomManager.Room",
-            "name": "New Room7",
-            "map": {
-                "py/id": 0
-            },
-            "description": "",
-            "connected_rooms": {},
-            "inventory": []
+            "py/id": 10
         }
     },
     "current_room": {
