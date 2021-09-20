@@ -8,7 +8,7 @@ import RoomManager
 import CharacterManager
 import DialogueManager
 from CharacterManager import Character
-from Commands import EnterCurrentRoomCommand, InteractCommand, TravelCommand
+from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand
 
 
 class LeftPanelWidget(Widget):
@@ -57,7 +57,7 @@ class GameContainer(BoxLayout):
 
     def interact_with_character(self, character):
         self.update_context_menu(character.get_character_command_dict())
-        self.update_log(DialogueManager.story.get_story_log)
+        self.update_log(DialogueManager.story.get_story_log())
         #self.update_log(character.get_intro_text())
 
     def enter_current_room(self):
@@ -76,19 +76,27 @@ class GameContainer(BoxLayout):
 
     def update_context_menu(self, command_dict):
         self.grid_manager.clear_buttons()
-        char_iter = 0
+        top_row_iter = 0
         for key, command in command_dict.items():
             if isinstance(command, InteractCommand):
-                if self.grid_manager.button_list[char_iter].has_command():
-                    char_iter += 1
-                    self.grid_manager.button_list[char_iter].set_command(command)
-                    self.grid_manager.button_list[char_iter].set_display_text(key)
+                if self.grid_manager.button_list[top_row_iter].has_command():
+                    top_row_iter += 1
+                    self.grid_manager.button_list[top_row_iter].set_command(command)
+                    self.grid_manager.button_list[top_row_iter].set_display_text(key)
                 else:
-                    self.grid_manager.button_list[char_iter].set_command(command)
-                    self.grid_manager.button_list[char_iter].set_display_text(key)
+                    self.grid_manager.button_list[top_row_iter].set_command(command)
+                    self.grid_manager.button_list[top_row_iter].set_display_text(key)
             elif isinstance(command, TravelCommand):
                 self.grid_manager.button_list[self.convert_dir_to_button(key)].set_command(command)
                 self.grid_manager.button_list[self.convert_dir_to_button(key)].set_display_text(key)
+            elif isinstance(command, DirectDialogueCommand):
+                if self.grid_manager.button_list[top_row_iter].has_command():
+                    top_row_iter += 1
+                    self.grid_manager.button_list[top_row_iter].set_command(command)
+                    self.grid_manager.button_list[top_row_iter].set_display_text(key)
+                else:
+                    self.grid_manager.button_list[top_row_iter].set_command(command)
+                    self.grid_manager.button_list[top_row_iter].set_display_text(key)
             elif isinstance(command, EnterCurrentRoomCommand):
                 self.grid_manager.set_button_command_and_text(14, key, command)
             else:

@@ -49,13 +49,16 @@ class Story(object):
     # this accepts the actual stitch
     def building_node(self, stitch):
         self.find_chain(stitch)
-        self.current_story_options = self.find_options(stitch)
+        self.find_options(stitch)
         if self.find_next_stitch(stitch):
             self.building_node(self.find_next_stitch(stitch))
 
     # link_path is just a string that corresponds to the stitch
     def build_node(self, link_path, client_call_back):
-        self.current_story_options["Back"] = DirectDialogueCommand(self, self.current_stitch_name)
+        if self.current_stitch_name == self.full_dict["data"]["initial"]:
+            self.current_story_options = {"Back": EnterCurrentRoomCommand()}
+        else:
+            self.current_story_options["Back"] = DirectDialogueCommand(self, self.current_stitch_name)
         self.building_node(self.stitches[link_path])
         client_call_back(self)
 
