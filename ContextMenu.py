@@ -41,6 +41,10 @@ class GridManager(GridLayout):
             self.button_list.insert(i, button)
             self.add_widget(button)
 
+    def set_button_command_and_text(self, button_number, text, command):
+        self.button_list[button_number].set_display_text(text)
+        self.button_list[button_number].set_command(command)
+
     def set_root_container(self, root_container):
         self.root_container = root_container
         DynamicButton.root_container = self.root_container

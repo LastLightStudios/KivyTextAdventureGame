@@ -1,0 +1,106 @@
+{
+    "title":"Test Story",
+    "data":{
+        "stitches":{
+            "onceUponATime":{
+                "content":[
+                    "Once upon a time...",{
+                        "option":"I am a boy",
+                        "linkPath":"helloSir",
+                        "ifConditions":null,
+                        "notIfConditions":null
+                    },{
+                        "option":"I am a girl",
+                        "linkPath":"helloMaam",
+                        "ifConditions":null,
+                        "notIfConditions":null
+                    },{
+                        "pageNum":1
+                    }
+                ]
+            },
+            "helloSir":{
+                "content":[
+                    "Hello Sir",{
+                        "divert":"welcomeToTheWorl"
+                    },{
+                        "flagName":"boy"
+                    },{
+                        "flagName":"boy2"
+                    }
+                ]
+            },
+            "welcomeToTheWorl":{
+                "content":[
+                    "Welcome to the world of pokemon!",{
+                        "option":"the boy option",
+                        "linkPath":"idkBoyOrSmth",
+                        "ifConditions":[
+                            {
+                                "ifCondition":"boy"
+                            },{
+                                "ifCondition":"boy2"
+                            }
+                        ],
+                        "notIfConditions":null
+                    },{
+                        "option":"always available",
+                        "linkPath":"moreStoryIg",
+                        "ifConditions":null,
+                        "notIfConditions":null
+                    },{
+                        "option":"girls only",
+                        "linkPath":"sleepover",
+                        "ifConditions":[
+                            {
+                                "ifCondition":"girl"
+                            }
+                        ],
+                        "notIfConditions":null
+                    }
+                ]
+            },
+            "helloMaam":{
+                "content":[
+                    "Hello Ma'am",{
+                        "divert":"youreKindaCuteYk"
+                    },{
+                        "flagName":"girl"
+                    }
+                ]
+            },
+            "youreKindaCuteYk":{
+                "content":[
+                    "You're kinda cute y'know",{
+                        "divert":"welcomeToTheWorl"
+                    }
+                ]
+            },
+            "idkBoyOrSmth":{
+                "content":[
+                    "idk boy or smth"
+                ]
+            },
+            "moreStoryIg":{
+                "content":[
+                    "more story ig"
+                ]
+            },
+            "sleepover":{
+                "content":[
+                    "sleepover"
+                ]
+            }
+        },
+        "initial":"onceUponATime",
+        "optionMirroring":true,
+        "allowCheckpoints":false,
+        "editorData":{
+            "playPoint":"welcomeToTheWorl",
+            "libraryVisible":false,
+            "authorName":"LastLight",
+            "textSize":1
+        }
+    },
+    "url_key":80980
+}
