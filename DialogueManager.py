@@ -44,10 +44,12 @@ class Story(object):
             if type(list_ele) is dict:
                 if "option" in list_ele:
                     # set the key:value pair as the option string:linkPath string
+                    print("Adding command: " + list_ele["linkPath"])
                     self.current_story_options[list_ele["option"]] = DirectDialogueCommand(self, list_ele["linkPath"])
 
     # this accepts the actual stitch
     def building_node(self, stitch):
+        print("Building node of" + str(stitch))
         self.find_chain(stitch)
         self.find_options(stitch)
         if self.find_next_stitch(stitch):
@@ -55,10 +57,15 @@ class Story(object):
 
     # link_path is just a string that corresponds to the stitch
     def build_node(self, link_path, client_call_back):
-        if self.current_stitch_name == self.full_dict["data"]["initial"]:
-            self.current_story_options = {"Back": EnterCurrentRoomCommand()}
+        print("Current stitch is " + self.current_stitch_name)
+        self.current_story_options = {}
+        self.current_story_log = ""
+        if link_path == self.full_dict["data"]["initial"]:
+            self.current_story_options["Back"] = EnterCurrentRoomCommand()
         else:
             self.current_story_options["Back"] = DirectDialogueCommand(self, self.current_stitch_name)
+            print("Back option is" + self.current_stitch_name)
+        self.current_stitch_name = link_path
         self.building_node(self.stitches[link_path])
         client_call_back(self)
 

@@ -34,6 +34,7 @@ class DirectDialogueCommand(Command):
         self.link_path = link_path
 
     def execute(self, client) -> None:
+        print("Executing to linkpath" + self.link_path)
         self.story.build_node(self.link_path, client.dialogue_pressed)
 
 
