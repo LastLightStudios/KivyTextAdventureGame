@@ -68,7 +68,7 @@ class GameContainer(BoxLayout):
         self.update_context_menu(room.get_room_command_dict())
 
     def update_log(self, new_text):
-        self.scrollable_widget.add_text(new_text)
+        self.scrollable_widget.update_text(new_text)
 
     def dialogue_pressed(self, story):
         self.update_log(story.get_story_log())

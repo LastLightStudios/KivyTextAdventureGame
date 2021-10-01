@@ -58,6 +58,7 @@ class Story(object):
     # link_path is just a string that corresponds to the stitch
     def build_node(self, link_path, client_call_back):
         print("Current stitch is " + self.current_stitch_name)
+        # Resets the command dict and story log
         self.current_story_options = {}
         self.current_story_log = ""
         if link_path == self.full_dict["data"]["initial"]:
