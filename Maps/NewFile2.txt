@@ -22,7 +22,9 @@
                         }
                     },
                     "inventory": {},
-                    "characters": []
+                    "characters": [
+                "Joe",
+                "Mama"]
                 },
                 "Right": {
                     "py/object": "RoomManager.Room",
@@ -77,10 +79,7 @@
                 }
             },
             "inventory": {},
-            "characters": [
-                "Joe",
-                "Mama"
-            ]
+            "characters": ["Joanna"]
         },
         "Left Room": {
             "py/id": 4

@@ -20,6 +20,9 @@ class ScrollableWidget(ScrollView):
     def add_text(self, text):
         self.text += text + '\n'
 
+    def update_text(self, text):
+        self.text = text
+
 
 class TestApp(App):
     def build(self):

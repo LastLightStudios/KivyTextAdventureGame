@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 import jsonpickle
+import CharacterManager
 
 from Commands import InteractCommand, TravelCommand
 
@@ -25,22 +26,10 @@ class RoomMap(object):
             print("cannot travel in this direction")
             return False
 
-    def get_current_room_desc(self):
-        return self.current_room.description
-
-    def get_room_command_dict(self):
-        command_dict = {}
-        for key in self.current_room.connected_rooms:
-            command_dict[key] = TravelCommand(self, key)
-        for name in self.current_room.characters:
-            command_dict[name] = InteractCommand()
-        return command_dict
-
 
 # RoomManager singleton definition
 
 room_map = RoomMap()
-print("Made RoomManager. room_map is" + str(RoomMap()))
 
 
 # Read/Write Map Methods
@@ -225,5 +214,5 @@ class Room(object):
         for key in self.connected_rooms:
             command_dict[key] = TravelCommand(self.owner, key)
         for name in self.characters:
-            command_dict[name] = InteractCommand()
+            command_dict[name] = InteractCommand(CharacterManager.character_dict[name])
         return command_dict
