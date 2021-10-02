@@ -4,6 +4,8 @@ from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 
+from StatDisplay import CharacterStatBlockDisplay # surprised i dont need to import the context menu?
+
 import RoomManager
 import CharacterManager
 import DialogueManager

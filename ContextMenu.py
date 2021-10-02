@@ -4,8 +4,6 @@ from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
 
-from Commands import TravelCommand
-
 
 class DynamicButton(Widget):
     root_container = ObjectProperty()
@@ -47,7 +45,7 @@ class GridManager(GridLayout):
 
     def set_root_container(self, root_container):
         self.root_container = root_container
-        DynamicButton.root_container = self.root_container
+        DynamicButton.root_container = self.root_container # I think this is changing the class property and thats why it works?
 
     def clear_buttons(self):
         for button in self.button_list:

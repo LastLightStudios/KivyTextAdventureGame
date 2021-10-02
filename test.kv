@@ -1,5 +1,30 @@
 #:kivy 2.0.0
 
+<DynamicStatBar>
+    canvas.before:
+        Color:
+            rgb: root.background_color
+        RoundedRectangle:
+            pos: root.pos
+            size: root.size
+    Label:
+        text: 'Test'
+    Label:
+        size_hint: root.current_percent, 1.0
+        id: fill_bar
+        canvas.after:
+            Color:
+                rgb: root.foreground_color
+
+
+<CharacterStatBlockDisplay>
+    size: root.size
+    pos: root.pos
+    orientation: 'vertical'
+    DynamicStatBar:
+    DynamicStatBar:
+    DynamicStatBar:
+
 <DynamicButton>
     Button:
         size: root.size
@@ -23,9 +48,11 @@
             Button:
                 text: 'character stats'
                 size_hint_y: 0.2
+            CharacterStatBlockDisplay:
+                size_hint_y: 0.2
             Button:
                 text: 'details'
-                size_hint_y: 0.5
+                size_hint_y: 0.3
             Button:
                 text: 'idk fam'
                 size_hint_y: 0.3
