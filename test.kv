@@ -1,20 +1,25 @@
 #:kivy 2.0.0
 
 <DynamicStatBar>
-    canvas.before:
-        Color:
-            rgb: root.background_color
-        RoundedRectangle:
-            pos: root.pos
-            size: root.size
     Label:
-        text: 'Test'
+        pos: root.pos
+        canvas.before:
+            Color:
+                rgb: root.background_color
+            RoundedRectangle:
+                pos: root.pos
+                size: root.size
     Label:
-        size_hint: root.current_percent, 1.0
         id: fill_bar
-        canvas.after:
+        canvas.before:
             Color:
                 rgb: root.foreground_color
+            RoundedRectangle:
+                pos: root.pos
+                size: root.current_size
+    Label:
+        text: 'Test'
+        pos: root.pos
 
 
 <CharacterStatBlockDisplay>

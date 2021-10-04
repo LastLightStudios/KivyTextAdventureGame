@@ -15,7 +15,7 @@ class DynamicStatBar(FloatLayout):
     maximum_value = NumericProperty()
     current_value = NumericProperty()
     current_percent = NumericProperty()
-    current_size = NumericProperty()
+    current_size = ListProperty()
     display_text = StringProperty()
     background_color = ListProperty([0.1, 0.1, 0.1])
     foreground_color = ListProperty([0.8, 0.1, 0.1, 1.0])
@@ -24,6 +24,7 @@ class DynamicStatBar(FloatLayout):
         super(DynamicStatBar, self).__init__(**kwargs)
         self.set_max_value(100)
         self.set_current_value(50)
+        self.bind(size=self.update_bar_visual)
 #        fill = Label(
 #            text='test',
 #            size_hint=(self.current_percent, 1.0),
@@ -33,17 +34,16 @@ class DynamicStatBar(FloatLayout):
 #            Rectangle(pos=fill.pos, size=fill.size)
 #        self.add_widget(fill)
 
-    def update_bar_visual(self):
-        with self.fill_bar.canvas:
-            Color(self.foreground_color)
-            Rectangle(pos=self.pos, size=(self.size[0], self.size[1]*self.current_percent))
+    def update_bar_visual(self, *args):
+        self.current_size = [self.current_percent * self.size[0], self.size[1]]
 
     def set_max_value(self, value):
         self.maximum_value = value
 
     def set_current_value(self, value):
         self.current_value = value
-        self.current_percent = self.maximum_value / (max(0, min(self.maximum_value, value)))
+        self.current_percent = (max(0, min(self.maximum_value, value))) / self.maximum_value
+        self.update_bar_visual()
 
 
 class CharacterStatBlockDisplay(BoxLayout):
