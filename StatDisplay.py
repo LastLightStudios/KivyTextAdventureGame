@@ -44,11 +44,22 @@ class DynamicStatBar(BoxLayout):
 class CharacterStatBlockDisplay(BoxLayout):
     root_container = ObjectProperty()
     character_name = StringProperty()
+    stat_dict = {}
 
     def __init__(self, **kwargs):
         super(CharacterStatBlockDisplay, self).__init__(**kwargs)
-        self.add_widget(DynamicStatBar())
+        health_bar = DynamicStatBar()
+        self.stat_dict["Health_Bar"] = health_bar
+        self.add_widget(health_bar)
 
     def set_root_container(self, root_container):
         self.root_container = root_container
         DynamicStatBar.root_container = self.root_container
+
+    def init_health(self, max_hp):
+        self.stat_dict["Health_Bar"].set_max_value(max_hp)
+        self.stat_dict["Health_Bar"].set_current_value(max_hp)
+
+    def update_health(self, current_hp, max_hp):
+        self.stat_dict["Health_Bar"].set_max_value(max_hp)
+        self.stat_dict["Health_Bar"].set_current_value(current_hp)

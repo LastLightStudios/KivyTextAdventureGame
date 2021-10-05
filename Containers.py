@@ -10,7 +10,7 @@ import RoomManager
 import CharacterManager
 import DialogueManager
 from CharacterManager import Character
-from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand
+from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempSetHPCommand
 
 
 class LeftPanelWidget(Widget):
@@ -34,16 +34,13 @@ class CenterPanelWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(CenterPanelWidget, self).__init__(**kwargs)
 
-    def init_complete(self):
-        for child in self.children:
-            child.init_complete()
-
 
 class GameContainer(BoxLayout):
     left_panel = ObjectProperty()
     right_panel = ObjectProperty()
     scrollable_widget = ObjectProperty()
     grid_manager = ObjectProperty()
+    character_display = ObjectProperty()
 
     def __init__(self, **kwargs):
         super(GameContainer, self).__init__(**kwargs)
@@ -62,6 +59,9 @@ class GameContainer(BoxLayout):
         self.update_log(DialogueManager.story.get_story_log())
         #self.update_log(character.get_intro_text())
 
+    def temp_set_hp(self, current_hp, max_hp):
+        self.character_display.update_health(current_hp, max_hp)
+
     def enter_current_room(self):
         self.enter_room(self.room_manager.room_map.current_room)
 
@@ -79,6 +79,10 @@ class GameContainer(BoxLayout):
     def update_context_menu(self, command_dict):
         self.grid_manager.clear_buttons()
         top_row_iter = 0
+        self.grid_manager.button_list[9].set_command(TempSetHPCommand(300, 500))
+        self.grid_manager.button_list[9].set_display_text("hpmod")
+        self.grid_manager.button_list[4].set_command(TempSetHPCommand(20, 20))
+        self.grid_manager.button_list[4].set_display_text("hpmod")
         for key, command in command_dict.items():
             if isinstance(command, InteractCommand):
                 if self.grid_manager.button_list[top_row_iter].has_command():

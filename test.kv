@@ -29,7 +29,6 @@
             text: root.display_value
             pos: root.pos
 
-
 <CharacterStatBlockDisplay>
     size: root.size
     pos: root.pos
@@ -47,6 +46,7 @@
     right_panel: right_panel
     scrollable_widget: scrollable_widget
     grid_manager: grid_manager
+    character_display: character_display
     orientation: 'horizontal'
     LeftPanelWidget:
         id: left_panel
@@ -59,6 +59,7 @@
                 text: 'character stats'
                 size_hint_y: 0.2
             CharacterStatBlockDisplay:
+                id: character_display
                 size_hint_y: 0.2
             Button:
                 text: 'details'

@@ -5,19 +5,36 @@ from abc import ABC, abstractmethod
 class Command(ABC):
     """
     The Command interface declares a method for executing a command.
-    """
 
+    def __init__(self, *args):
+    *args will be passed in from the Model. The Model creates the command.
+
+    def execute(self, client) -> None:
+    client is a callback to pass the information to the View
+    """
     @abstractmethod
     def execute(self, client) -> None:
         pass
 
 
+class TempSetHPCommand(Command):
+
+    def __init__(self, current_hp, max_hp):
+        self.current_hp = current_hp
+        self.max_hp = max_hp
+
+    def execute(self, client) -> None:
+        client.temp_set_hp(self.current_hp, self.max_hp)
+
+
+#this one doesnt follow the paradigm yet
 class EnterCurrentRoomCommand(Command):
 
     def execute(self, client) -> None:
         client.enter_current_room()
 
 
+#this is also temp
 class InteractCommand(Command):
 
     def __init__(self, character):
