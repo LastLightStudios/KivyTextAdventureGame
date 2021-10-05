@@ -9,14 +9,14 @@ from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 
 
-class DynamicStatBar(FloatLayout):
+class DynamicStatBar(BoxLayout):
     root_container = ObjectProperty()
-    fill_bar = ObjectProperty()
+    display_text = StringProperty("Stat")
     maximum_value = NumericProperty()
     current_value = NumericProperty()
     current_percent = NumericProperty()
-    current_size = ListProperty()
-    display_text = StringProperty()
+    current_size = ListProperty([0, 0])
+    display_value = StringProperty()
     background_color = ListProperty([0.1, 0.1, 0.1])
     foreground_color = ListProperty([0.8, 0.1, 0.1, 1.0])
 
@@ -25,17 +25,12 @@ class DynamicStatBar(FloatLayout):
         self.set_max_value(100)
         self.set_current_value(50)
         self.bind(size=self.update_bar_visual)
-#        fill = Label(
-#            text='test',
-#            size_hint=(self.current_percent, 1.0),
-#            pos_hint={'x': 0.5, 'y': 1.0})
-#        with fill.canvas:
-#            Color(self.foreground_color)
-#            Rectangle(pos=fill.pos, size=fill.size)
-#        self.add_widget(fill)
 
     def update_bar_visual(self, *args):
-        self.current_size = [self.current_percent * self.size[0], self.size[1]]
+        print(str(self.fill_bar.size))
+        self.current_size = [self.current_percent * self.fill_bar.size[0], self.fill_bar.size[1]]
+        print(str(self.current_size))
+        self.display_value = str(self.current_value) + "/" + str(self.maximum_value)
 
     def set_max_value(self, value):
         self.maximum_value = value
@@ -48,9 +43,11 @@ class DynamicStatBar(FloatLayout):
 
 class CharacterStatBlockDisplay(BoxLayout):
     root_container = ObjectProperty()
+    character_name = StringProperty()
 
     def __init__(self, **kwargs):
         super(CharacterStatBlockDisplay, self).__init__(**kwargs)
+        self.add_widget(DynamicStatBar())
 
     def set_root_container(self, root_container):
         self.root_container = root_container
