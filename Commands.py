@@ -14,7 +14,7 @@ class Command(ABC):
     def execute(self, client) -> None:
     client is a callback to pass the information to the View
     execute should call something like
-    manager.action(*args, client.callback)
+    manager.function(*args, client.callback)
     """
     @abstractmethod
     def execute(self, client) -> None:
@@ -38,7 +38,6 @@ class EnterCurrentRoomCommand(Command):
         client.enter_current_room()
 
 
-#this is also temp
 class InteractCommand(Command):
 
     def __init__(self, character):

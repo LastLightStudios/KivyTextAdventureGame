@@ -23,7 +23,6 @@ def save(file_path):
         save_file.write(char_info)
 
 
-
 def interact_with_character(character, client_callback):
     client_callback({"Commands": character.get_character_command_dict(),
                      "Log": DialogueManager.story.get_story_log()})

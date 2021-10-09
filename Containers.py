@@ -54,6 +54,7 @@ class GameContainer(BoxLayout):
         self.enter_current_room()
         self.grid_manager.set_root_container(self)
 
+    # TODO see if this can be combined
     def interact_with_character(self, info):
         self.update_context_menu(info["Commands"])
         self.update_log(info["Log"])
@@ -64,13 +65,17 @@ class GameContainer(BoxLayout):
     def enter_current_room(self):
         self.enter_room(self.room_manager.room_map.current_room)
 
-    def enter_room(self, room):
-        self.update_log(room.get_room_desc())
-        self.update_context_menu(room.get_room_command_dict())
+    #change to accept a dict of information so it doesn't actually call any functions
+    #hold up
+    #TODO can i combine this and interact with character?
+    def enter_room(self, info):
+        self.update_context_menu(info["Commands"])
+        self.update_log(info["Log"])
 
     def update_log(self, new_text):
         self.scrollable_widget.update_text(new_text)
 
+    #change to accept a dict of information so it doesn't actually call any functions
     def dialogue_pressed(self, story):
         self.update_log(story.get_story_log())
         self.update_context_menu(story.get_story_commands())

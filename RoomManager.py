@@ -20,7 +20,8 @@ class RoomMap(object):
         if direction in self.current_room.connected_rooms:
             self.current_room = self.current_room.connected_rooms[direction]
             print("Entering: " + self.current_room.name)
-            client_call_back(self.current_room)
+            client_call_back({"Commands": self.current_room.get_room_command_dict(),
+                             "Log": self.current_room.get_room_desc()})
             return True
         else:
             print("cannot travel in this direction")
