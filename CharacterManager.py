@@ -4,7 +4,6 @@ from pathlib import Path
 import DialogueManager
 from Commands import EnterCurrentRoomCommand
 
-
 character_dict = {}
 
 
@@ -24,6 +23,12 @@ def save(file_path):
         save_file.write(char_info)
 
 
+
+def interact_with_character(character, client_callback):
+    client_callback({"Commands": character.get_character_command_dict(),
+                     "Log": DialogueManager.story.get_story_log()})
+
+
 @dataclass
 class Character(object):
     name: str = ""
@@ -41,5 +46,5 @@ class Character(object):
         file_path = Path("Dialogue/" + self.name + "Test.txt")
         DialogueManager.load_story(file_path)
         command_dict.update(DialogueManager.story.get_story_commands())
-        #for string in self.dialogue_options_list:
+        # for string in self.dialogue_options_list:
         return command_dict

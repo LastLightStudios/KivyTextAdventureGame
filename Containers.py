@@ -54,10 +54,9 @@ class GameContainer(BoxLayout):
         self.enter_current_room()
         self.grid_manager.set_root_container(self)
 
-    def interact_with_character(self, character):
-        self.update_context_menu(character.get_character_command_dict())
-        self.update_log(DialogueManager.story.get_story_log())
-        #self.update_log(character.get_intro_text())
+    def interact_with_character(self, info):
+        self.update_context_menu(info["Commands"])
+        self.update_log(info["Log"])
 
     def temp_set_hp(self, current_hp, max_hp):
         self.character_display.update_health(current_hp, max_hp)

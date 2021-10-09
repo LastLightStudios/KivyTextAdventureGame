@@ -1,6 +1,8 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 
+import CharacterManager
+
 
 class Command(ABC):
     """
@@ -11,6 +13,8 @@ class Command(ABC):
 
     def execute(self, client) -> None:
     client is a callback to pass the information to the View
+    execute should call something like
+    manager.action(*args, client.callback)
     """
     @abstractmethod
     def execute(self, client) -> None:
@@ -41,7 +45,7 @@ class InteractCommand(Command):
         self.character = character
 
     def execute(self, client) -> None:
-        client.interact_with_character(self.character)
+        CharacterManager.interact_with_character(self.character, client.interact_with_character)
 
 
 class DirectDialogueCommand(Command):
