@@ -44,7 +44,7 @@ class InteractCommand(Command):
         self.character = character
 
     def execute(self, client) -> None:
-        CharacterManager.interact_with_character(self.character, client.interact_with_character)
+        CharacterManager.interact_with_character(self.character, client.update_view_info)
 
 
 class DirectDialogueCommand(Command):
@@ -55,7 +55,7 @@ class DirectDialogueCommand(Command):
 
     def execute(self, client) -> None:
         print("Executing to linkpath" + self.link_path)
-        self.story.build_node(self.link_path, client.dialogue_pressed)
+        self.story.build_node(self.link_path, client.update_view_info)
 
 
 class AddFlagDialogueCommand(Command):
@@ -75,4 +75,4 @@ class TravelCommand(Command):
         self._direction = direction
 
     def execute(self, client) -> None:
-        self._room_map.travel(self._direction, client.enter_room)
+        self._room_map.travel(self._direction, client.update_view_info)

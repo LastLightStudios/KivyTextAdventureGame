@@ -54,31 +54,21 @@ class GameContainer(BoxLayout):
         self.enter_current_room()
         self.grid_manager.set_root_container(self)
 
-    # TODO see if this can be combined
-    def interact_with_character(self, info):
-        self.update_context_menu(info["Commands"])
+    # Accepts a dict of info to update the screen
+    def update_view_info(self, info):
+        if "Commands" in info:
+            self.update_context_menu(info["Commands"])
         self.update_log(info["Log"])
 
     def temp_set_hp(self, current_hp, max_hp):
         self.character_display.update_health(current_hp, max_hp)
 
     def enter_current_room(self):
-        self.enter_room(self.room_manager.room_map.current_room)
-
-    #change to accept a dict of information so it doesn't actually call any functions
-    #hold up
-    #TODO can i combine this and interact with character?
-    def enter_room(self, info):
-        self.update_context_menu(info["Commands"])
-        self.update_log(info["Log"])
+        self.update_view_info({"Commands": RoomManager.room_map.current_room.get_room_command_dict(),
+                         "Log": RoomManager.room_map.current_room.get_room_desc()})
 
     def update_log(self, new_text):
         self.scrollable_widget.update_text(new_text)
-
-    #change to accept a dict of information so it doesn't actually call any functions
-    def dialogue_pressed(self, story):
-        self.update_log(story.get_story_log())
-        self.update_context_menu(story.get_story_commands())
 
     def update_context_menu(self, command_dict):
         self.grid_manager.clear_buttons()

@@ -68,7 +68,8 @@ class Story(object):
             print("Back option is" + self.current_stitch_name)
         self.current_stitch_name = link_path
         self.building_node(self.stitches[link_path])
-        client_call_back(self)
+        client_call_back({"Commands": self.get_story_commands(),
+                          "Log": self.get_story_log()})
 
     def initialize_story(self):
         self.stitches = self.full_dict["data"]["stitches"]
