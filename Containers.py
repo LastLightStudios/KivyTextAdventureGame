@@ -53,12 +53,14 @@ class GameContainer(BoxLayout):
         CharacterManager.character_dict["Mama"] = Character(name="Steve", intro_text="And I'm Mama")
         self.enter_current_room()
         self.grid_manager.set_root_container(self)
+        self.temp_set_hp(300, 800)
 
     # Accepts a dict of info to update the screen
     def update_view_info(self, info):
         if "Commands" in info:
             self.update_context_menu(info["Commands"])
-        self.update_log(info["Log"])
+        if "Log" in info:
+            self.update_log(info["Log"])
 
     def temp_set_hp(self, current_hp, max_hp):
         self.character_display.update_health(current_hp, max_hp)

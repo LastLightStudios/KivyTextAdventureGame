@@ -22,10 +22,11 @@ class DynamicStatBar(BoxLayout):
 
     def __init__(self, **kwargs):
         super(DynamicStatBar, self).__init__(**kwargs)
+        self.bind(size=self.update_bar_visual)
         self.set_max_value(100)
         self.set_current_value(50)
-        self.bind(size=self.update_bar_visual)
 
+    # for some reason the size is getting called again after everything is made and messing everything up
     def update_bar_visual(self, *args):
         print(str(self.fill_bar.size))
         self.current_size = [self.current_percent * self.fill_bar.size[0], self.fill_bar.size[1]]
@@ -39,6 +40,7 @@ class DynamicStatBar(BoxLayout):
         self.current_value = value
         self.current_percent = (max(0, min(self.maximum_value, value))) / self.maximum_value
         self.update_bar_visual()
+        print("Updated bar")
 
 
 class CharacterStatBlockDisplay(BoxLayout):
@@ -61,5 +63,6 @@ class CharacterStatBlockDisplay(BoxLayout):
         self.stat_dict["Health_Bar"].set_current_value(max_hp)
 
     def update_health(self, current_hp, max_hp):
+        print("Updating")
         self.stat_dict["Health_Bar"].set_max_value(max_hp)
         self.stat_dict["Health_Bar"].set_current_value(current_hp)
