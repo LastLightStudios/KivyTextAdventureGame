@@ -53,7 +53,8 @@ class GameContainer(BoxLayout):
         CharacterManager.character_dict["Mama"] = Character(name="Steve", intro_text="And I'm Mama")
         self.enter_current_room()
         self.grid_manager.set_root_container(self)
-        self.temp_set_hp(300, 800)
+        self.temp_set_hp(CharacterManager.character_dict["Player"].get_stats()["Health"],
+                         CharacterManager.character_dict["Player"].get_stats()["Max Health"])
 
     # Accepts a dict of info to update the screen
     def update_view_info(self, info):

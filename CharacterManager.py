@@ -9,7 +9,7 @@ from Commands import EnterCurrentRoomCommand
 class Character(object):
     name: str = ""
     health: int = 50
-    max_health: int = 50
+    max_health: int = 100
     second_health: int = 50
     intro_text: str = ""
     dialogue_options_list: list = field(default_factory=list)
@@ -17,6 +17,12 @@ class Character(object):
 
     def get_intro_text(self):
         return self.intro_text
+
+    def get_stats(self):
+        return {"Health": self.health, "Max Health": self.max_health}
+
+    def modify_health(self, amount):
+        self.health += amount
 
     def get_character_command_dict(self):
         command_dict = {"Back": EnterCurrentRoomCommand()}
@@ -44,7 +50,6 @@ def save(file_path):
     char_info = jsonpickle.encode(character_dict, indent=4, keys=True)
     with open(file_path, "w") as save_file:
         save_file.write(char_info)
-
 
 def interact_with_character(character, client_callback):
     client_callback({"Commands": character.get_character_command_dict(),
