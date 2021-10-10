@@ -62,7 +62,12 @@ class CharacterStatBlockDisplay(BoxLayout):
         self.stat_dict["Health_Bar"].set_max_value(max_hp)
         self.stat_dict["Health_Bar"].set_current_value(max_hp)
 
+    def update_current_health(self, current_hp):
+        print("Updating current_hp to: " + str(current_hp))
+        self.stat_dict["Health_Bar"].set_current_value(current_hp)
+
     def update_health(self, current_hp, max_hp):
-        print("Updating")
+        print("Updating current_hp to: " + str(current_hp))
+        print("Updating max_hp to: " + str(max_hp))
         self.stat_dict["Health_Bar"].set_max_value(max_hp)
         self.stat_dict["Health_Bar"].set_current_value(current_hp)

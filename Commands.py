@@ -30,6 +30,15 @@ class TempSetHPCommand(Command):
     def execute(self, client) -> None:
         client.temp_set_hp(self.current_hp, self.max_hp)
 
+class TempChangeHPCommand(Command):
+
+    def __init__(self, character, amount):
+        self.character = character
+        self.amount = amount
+
+    def execute(self, client) -> None:
+        self.character.modify_health(self.amount, client.temp_set_hp)
+
 
 #this one doesnt follow the paradigm yet
 class EnterCurrentRoomCommand(Command):

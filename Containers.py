@@ -10,7 +10,7 @@ import RoomManager
 import CharacterManager
 import DialogueManager
 from CharacterManager import Character
-from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempSetHPCommand
+from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempSetHPCommand, TempChangeHPCommand
 
 
 class LeftPanelWidget(Widget):
@@ -76,10 +76,10 @@ class GameContainer(BoxLayout):
     def update_context_menu(self, command_dict):
         self.grid_manager.clear_buttons()
         top_row_iter = 0
-        self.grid_manager.button_list[9].set_command(TempSetHPCommand(300, 500))
-        self.grid_manager.button_list[9].set_display_text("hpmod")
-        self.grid_manager.button_list[4].set_command(TempSetHPCommand(20, 20))
-        self.grid_manager.button_list[4].set_display_text("hpmod")
+        self.grid_manager.button_list[9].set_command(TempChangeHPCommand(CharacterManager.character_dict["Player"], 10))
+        self.grid_manager.button_list[9].set_display_text("hpmod+")
+        self.grid_manager.button_list[4].set_command(TempChangeHPCommand(CharacterManager.character_dict["Player"], -10))
+        self.grid_manager.button_list[4].set_display_text("hpmod-")
         for key, command in command_dict.items():
             if isinstance(command, InteractCommand):
                 if self.grid_manager.button_list[top_row_iter].has_command():

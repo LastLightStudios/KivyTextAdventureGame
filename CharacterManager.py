@@ -21,8 +21,9 @@ class Character(object):
     def get_stats(self):
         return {"Health": self.health, "Max Health": self.max_health}
 
-    def modify_health(self, amount):
+    def modify_health(self, amount, client_callback):
         self.health += amount
+        client_callback(self.health, self.max_health)
 
     def get_character_command_dict(self):
         command_dict = {"Back": EnterCurrentRoomCommand()}
@@ -50,6 +51,7 @@ def save(file_path):
     char_info = jsonpickle.encode(character_dict, indent=4, keys=True)
     with open(file_path, "w") as save_file:
         save_file.write(char_info)
+
 
 def interact_with_character(character, client_callback):
     client_callback({"Commands": character.get_character_command_dict(),
