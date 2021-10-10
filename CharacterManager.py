@@ -23,7 +23,7 @@ class Character(object):
 
     def modify_health(self, amount, client_callback):
         self.health += amount
-        client_callback(self.health, self.max_health)
+        client_callback({"Current Health": self.health})
 
     def get_character_command_dict(self):
         command_dict = {"Back": EnterCurrentRoomCommand()}

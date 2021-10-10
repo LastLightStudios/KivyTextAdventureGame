@@ -37,7 +37,7 @@ class TempChangeHPCommand(Command):
         self.amount = amount
 
     def execute(self, client) -> None:
-        self.character.modify_health(self.amount, client.temp_set_hp)
+        self.character.modify_health(self.amount, client.update_view_info)
 
 
 #this one doesnt follow the paradigm yet
