@@ -57,7 +57,9 @@ class GameContainer(BoxLayout):
         self.grid_manager.set_root_container(self)
         self.temp_set_hp(GameState.character_manager.character_dict["Player"].get_stats()["Health"],
                          GameState.character_manager.character_dict["Player"].get_stats()["Max Health"])
+        # this one probably gets moved down to the scrollable widget - which is currently sitting in main
         GameState.register("Log", self)
+        # this one probably gets moved down to commands later
         GameState.register("Commands", self)
 
     def listener_event(self, info):

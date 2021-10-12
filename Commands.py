@@ -48,9 +48,10 @@ class EnterCurrentRoomCommand(Command):
         self.game_state = game_state
 
     def execute(self, client) -> None:
-        self.game_state.room_manager.room_map.enter_current_room(client.update_view_info)
+        self.game_state.room_manager.room_map.enter_current_room()
 
 
+# TODO
 class InteractCommand(Command):
 
     def __init__(self, game_state, character):
@@ -60,6 +61,7 @@ class InteractCommand(Command):
     def execute(self, client) -> None:
         self.game_state.character_manager.interact_with_character(self.character, client.update_view_info)
 
+# TODO
 
 class DirectDialogueCommand(Command):
 
@@ -89,4 +91,4 @@ class TravelCommand(Command):
         self._direction = direction
 
     def execute(self, client) -> None:
-        self._room_map.travel(self._direction, client.update_view_info)
+        self._room_map.travel(self._direction)

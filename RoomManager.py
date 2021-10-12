@@ -15,17 +15,17 @@ class RoomMap(object):
     def __init__(self):
         self.rooms = {}
 
-    def enter_current_room(self, client_call_back):
-        client_call_back ({"Commands": self.current_room.get_room_command_dict(),
-                            "Log": self.current_room.get_room_desc()})
+    def enter_current_room(self):
+        GameState.publish("Commands", message={"Commands": self.current_room.get_room_command_dict()})
+        GameState.publish("Log", message={"Log": self.current_room.get_room_desc(), "Clear": True})
 
-    def travel(self, direction, client_call_back):
+    def travel(self, direction):
         print("Traveling from: " + self.current_room.name)
         if direction in self.current_room.connected_rooms:
             self.current_room = self.current_room.connected_rooms[direction]
             print("Entering: " + self.current_room.name)
-            client_call_back({"Commands": self.current_room.get_room_command_dict(),
-                             "Log": self.current_room.get_room_desc()})
+            GameState.publish("Commands", message={"Commands": self.current_room.get_room_command_dict()})
+            GameState.publish("Log", message={"Log": self.current_room.get_room_desc(), "Clear": True})
             return True
         else:
             print("cannot travel in this direction")

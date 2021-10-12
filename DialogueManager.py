@@ -80,12 +80,6 @@ class Story(object):
         self.current_story_options = {"Back": EnterCurrentRoomCommand(GameState)}
         self.building_node(self.stitches[self.current_stitch_name])
 
-# DialogueManager singleton definition
-
-
-# total story info
-story = Story()  # the full dictionary
-
 
 # 4 methods
 # find chain -> just the dialogue info
@@ -94,9 +88,15 @@ story = Story()  # the full dictionary
 # build node -> this will call the first two
 # it will recursively call itself if the 3rd method returns a stitch
 
-def load_story(file_path):
-    global story
-    with open(file_path, "r") as load_file:
-        frozen = load_file.read()
-        story.full_dict = json.loads(frozen)
-    story.initialize_story()
+
+# DialogueManager singleton definition
+
+@dataclass()
+class DialogueManager:
+    story: Story = Story()  # the full dictionary
+
+    def load_story(self, file_path):
+        with open(file_path, "r") as load_file:
+            frozen = load_file.read()
+            self.story.full_dict = json.loads(frozen)
+        self.story.initialize_story()

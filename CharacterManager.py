@@ -4,7 +4,6 @@ import jsonpickle
 from dataclasses import dataclass, field
 from pathlib import Path
 from Commands import EnterCurrentRoomCommand
-import DialogueManager
 import GameState
 
 @dataclass
@@ -36,8 +35,8 @@ class Character(object):
     def get_character_command_dict(self):
         command_dict = {"Back": EnterCurrentRoomCommand(GameState)}
         file_path = Path("Dialogue/" + self.name + "Test.txt")
-        DialogueManager.load_story(file_path)
-        command_dict.update(DialogueManager.story.get_story_commands())
+        GameState.dialogue_manager.load_story(file_path)
+        command_dict.update(GameState.dialogue_manager.story.get_story_commands())
         # for string in self.dialogue_options_list:
         return command_dict
 
@@ -63,6 +62,6 @@ class CharacterManager:
 
     def interact_with_character(self, character, client_callback):
         GameState.publish("Commands", {"Commands": character.get_character_command_dict()})
-        GameState.publish("Log", {"Log": DialogueManager.story.get_story_log(), "Clear": True})
+        GameState.publish("Log", {"Log": GameState.dialogue_manager.story.get_story_log(), "Clear": True})
         #client_callback({"Commands": character.get_character_command_dict(),
                          #"Log": DialogueManager.story.get_story_log()})
