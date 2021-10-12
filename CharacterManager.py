@@ -22,8 +22,13 @@ class Character(object):
         return {"Health": self.health, "Max Health": self.max_health}
 
     def modify_health(self, amount, client_callback):
+        log = ""
         self.health += amount
-        client_callback({"Current Health": self.health})
+        if self.health <= 0 and amount < 0:
+            log = "Stop, you're already dead!"
+        elif self.health > self.max_health:
+            log = "You look bloated."
+        client_callback({"Current Health": self.health, "Log": log})
 
     def get_character_command_dict(self):
         command_dict = {"Back": EnterCurrentRoomCommand()}

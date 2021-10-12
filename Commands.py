@@ -1,7 +1,9 @@
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 
-import CharacterManager, RoomManager
+import CharacterManager
+import RoomManager
 
 
 class Command(ABC):
@@ -29,6 +31,7 @@ class TempSetHPCommand(Command):
 
     def execute(self, client) -> None:
         client.temp_set_hp(self.current_hp, self.max_hp)
+
 
 class TempChangeHPCommand(Command):
 
