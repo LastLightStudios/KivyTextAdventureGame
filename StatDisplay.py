@@ -1,4 +1,7 @@
 import kivy
+
+import GameState
+
 kivy.require('2.0.0')
 from kivy.graphics import *
 from kivy.properties import ListProperty, NumericProperty, ObjectProperty,  StringProperty
@@ -53,6 +56,7 @@ class CharacterStatBlockDisplay(BoxLayout):
         health_bar = DynamicStatBar()
         self.stat_dict["Health_Bar"] = health_bar
         self.add_widget(health_bar)
+        GameState.register("Health Change", self)
 
     def set_root_container(self, root_container):
         self.root_container = root_container
@@ -71,3 +75,8 @@ class CharacterStatBlockDisplay(BoxLayout):
         print("Updating max_hp to: " + str(max_hp))
         self.stat_dict["Health_Bar"].set_max_value(max_hp)
         self.stat_dict["Health_Bar"].set_current_value(current_hp)
+
+    def listener_event(self, info):
+        print("listener called")
+        if "Player" in info:
+            self.update_current_health(info["Health"])

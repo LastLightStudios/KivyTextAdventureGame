@@ -4,7 +4,7 @@ from collections import defaultdict
 from CharacterManager import CharacterManager
 from RoomManager import RoomManager
 
-event_callbacks = defaultdict(default_factory=list)
+event_callbacks = defaultdict(list)
 room_manager = RoomManager()
 character_manager = CharacterManager()
 
@@ -15,4 +15,4 @@ def register(event_type, observer):
 
 def publish(event_type, message):
     for observer in event_callbacks[event_type]:
-        observer.event_callback(message)
+        observer.listener_event(message)
