@@ -15,6 +15,10 @@ class RoomMap(object):
     def __init__(self):
         self.rooms = {}
 
+    def enter_current_room(self, client_call_back):
+        client_call_back ({"Commands": self.current_room.get_room_command_dict(),
+                            "Log": self.current_room.get_room_desc()})
+
     def travel(self, direction, client_call_back):
         print("Traveling from: " + self.current_room.name)
         if direction in self.current_room.connected_rooms:

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 
-import CharacterManager
+import CharacterManager, RoomManager
 
 
 class Command(ABC):
@@ -40,11 +40,11 @@ class TempChangeHPCommand(Command):
         self.character.modify_health(self.amount, client.update_view_info)
 
 
-#this one doesnt follow the paradigm yet
+# used on exiting a dialogue tree
 class EnterCurrentRoomCommand(Command):
 
     def execute(self, client) -> None:
-        client.enter_current_room()
+        RoomManager.room_map.enter_current_room(client.update_view_info)
 
 
 class InteractCommand(Command):
