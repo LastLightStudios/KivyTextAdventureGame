@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import jsonpickle
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -39,25 +41,22 @@ class Character(object):
         return command_dict
 
 
-character_dict = {"Player": Character(name="Player")}
+@dataclass()
+class CharacterManager:
+    character_dict: dict = field(default_factory={"Player": Character(name="Player")})
 
+    def load(file_path):
+        with open(file_path, "r") as load_file:
+            frozen = load_file.read()
+            char_info = jsonpickle.decode(frozen)
+            for key, value in char_info:
+                character_dict[key] = value
 
-def load(file_path):
-    global character_dict
-    with open(file_path, "r") as load_file:
-        frozen = load_file.read()
-        char_info = jsonpickle.decode(frozen)
-        for key, value in char_info:
-            character_dict[key] = value
+    def save(file_path):
+        char_info = jsonpickle.encode(character_dict, indent=4, keys=True)
+        with open(file_path, "w") as save_file:
+            save_file.write(char_info)
 
-
-def save(file_path):
-    global character_dict
-    char_info = jsonpickle.encode(character_dict, indent=4, keys=True)
-    with open(file_path, "w") as save_file:
-        save_file.write(char_info)
-
-
-def interact_with_character(character, client_callback):
-    client_callback({"Commands": character.get_character_command_dict(),
-                     "Log": DialogueManager.story.get_story_log()})
+    def interact_with_character(character, client_callback):
+        client_callback({"Commands": character.get_character_command_dict(),
+                         "Log": DialogueManager.story.get_story_log()})

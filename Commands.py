@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-import CharacterManager
+import GameState
 import RoomManager
 
 
@@ -56,7 +56,7 @@ class InteractCommand(Command):
         self.character = character
 
     def execute(self, client) -> None:
-        CharacterManager.interact_with_character(self.character, client.update_view_info)
+        GameState.character_manager.interact_with_character(self.character, client.update_view_info)
 
 
 class DirectDialogueCommand(Command):

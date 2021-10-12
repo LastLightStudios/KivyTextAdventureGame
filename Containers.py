@@ -8,7 +8,7 @@ from kivy.uix.widget import Widget
 from StatDisplay import CharacterStatBlockDisplay  # surprised i dont need to import the context menu?
 
 import RoomManager
-import CharacterManager
+import GameState
 import DialogueManager
 from CharacterManager import Character
 from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempSetHPCommand, \
@@ -49,10 +49,10 @@ class GameContainer(BoxLayout):
         self.room_manager = RoomManager
         self.room_manager.load(r"Maps\NewFile2.txt")
         # need to load in characters before room, b/c room has Interact which needs chara ref
-        CharacterManager.character_dict["Joanna"] = Character(name="Joanna", intro_text="I'm Joanna, how are you?")
-        CharacterManager.character_dict["Steve"] = Character(name="Steve", intro_text="Sup, I'm Steve")
-        CharacterManager.character_dict["Joe"] = Character(name="Steve", intro_text="It's Joe")
-        CharacterManager.character_dict["Mama"] = Character(name="Steve", intro_text="And I'm Mama")
+        GameState.character_manager.character_dict["Joanna"] = Character(name="Joanna", intro_text="I'm Joanna, how are you?")
+        GameState.character_manager.character_dict["Steve"] = Character(name="Steve", intro_text="Sup, I'm Steve")
+        GameState.character_manager.character_dict["Joe"] = Character(name="Steve", intro_text="It's Joe")
+        GameState.character_manager.character_dict["Mama"] = Character(name="Steve", intro_text="And I'm Mama")
         self.enter_current_room()
         self.grid_manager.set_root_container(self)
         self.temp_set_hp(CharacterManager.character_dict["Player"].get_stats()["Health"],
@@ -84,7 +84,7 @@ class GameContainer(BoxLayout):
         self.grid_manager.button_list[9].set_command(TempChangeHPCommand(CharacterManager.character_dict["Player"], 10))
         self.grid_manager.button_list[9].set_display_text("hpmod+")
         self.grid_manager.button_list[4].set_command(
-            TempChangeHPCommand(CharacterManager.character_dict["Player"], -10))
+            TempChangeHPCommand(GameState.character_manager.character_dict["Player"], -10))
         self.grid_manager.button_list[4].set_display_text("hpmod-")
         for key, command in command_dict.items():
             if isinstance(command, InteractCommand):
