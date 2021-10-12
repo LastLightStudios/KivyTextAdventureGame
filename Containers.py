@@ -58,12 +58,19 @@ class GameContainer(BoxLayout):
         self.temp_set_hp(GameState.character_manager.character_dict["Player"].get_stats()["Health"],
                          GameState.character_manager.character_dict["Player"].get_stats()["Max Health"])
         GameState.register("Log", self)
+        GameState.register("Commands", self)
 
     def listener_event(self, info):
-        if info["Clear"]:
-            self.scrollable_widget.replace_text(info["Log"])
-        else:
-            self.scrollable_widget.add_text(info["Log"])
+        if "Log" in info:
+            if "Clear" in info:
+                if info["Clear"]:
+                    self.scrollable_widget.replace_text(info["Log"])
+                else:
+                    self.scrollable_widget.add_text(info["Log"])
+            else:
+                print("Need to add clear to this Log in info")
+        if "Commands" in info:
+            self.update_context_menu(info["Commands"])
 
     # Accepts a dict of info to update the screen
     def update_view_info(self, info):

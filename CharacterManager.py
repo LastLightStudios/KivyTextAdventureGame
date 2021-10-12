@@ -62,5 +62,7 @@ class CharacterManager:
             save_file.write(char_info)
 
     def interact_with_character(self, character, client_callback):
-        client_callback({"Commands": character.get_character_command_dict(),
-                         "Log": DialogueManager.story.get_story_log()})
+        GameState.publish("Commands", {"Commands": character.get_character_command_dict()})
+        GameState.publish("Log", {"Log": DialogueManager.story.get_story_log(), "Clear": True})
+        #client_callback({"Commands": character.get_character_command_dict(),
+                         #"Log": DialogueManager.story.get_story_log()})
