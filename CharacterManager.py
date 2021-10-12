@@ -3,8 +3,8 @@ from __future__ import annotations
 import jsonpickle
 from dataclasses import dataclass, field
 from pathlib import Path
-import DialogueManager
 from Commands import EnterCurrentRoomCommand
+import DialogueManager
 
 
 @dataclass
