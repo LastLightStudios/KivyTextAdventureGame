@@ -2,9 +2,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-import GameState
-import RoomManager
-
 
 class Command(ABC):
     """
@@ -18,6 +15,7 @@ class Command(ABC):
     execute should call something like
     manager.function(*args, client.callback)
     """
+
     @abstractmethod
     def execute(self, client) -> None:
         pass
@@ -46,17 +44,21 @@ class TempChangeHPCommand(Command):
 # used on exiting a dialogue tree
 class EnterCurrentRoomCommand(Command):
 
+    def __init__(self, game_state):
+        self.game_state = game_state
+
     def execute(self, client) -> None:
-        RoomManager.room_map.enter_current_room(client.update_view_info)
+        self.game_state.room_manager.room_map.enter_current_room(client.update_view_info)
 
 
 class InteractCommand(Command):
 
-    def __init__(self, character):
+    def __init__(self, game_state, character):
+        self.game_state = game_state
         self.character = character
 
     def execute(self, client) -> None:
-        GameState.character_manager.interact_with_character(self.character, client.update_view_info)
+        self.game_state.character_manager.interact_with_character(self.character, client.update_view_info)
 
 
 class DirectDialogueCommand(Command):

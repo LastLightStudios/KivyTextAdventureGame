@@ -46,7 +46,7 @@ class GameContainer(BoxLayout):
 
     def __init__(self, **kwargs):
         super(GameContainer, self).__init__(**kwargs)
-        self.room_manager = RoomManager
+        self.room_manager = GameState.room_manager
         self.room_manager.load(r"Maps\NewFile2.txt")
         # need to load in characters before room, b/c room has Interact which needs chara ref
         GameState.character_manager.character_dict["Joanna"] = Character(name="Joanna", intro_text="I'm Joanna, how are you?")
@@ -55,8 +55,8 @@ class GameContainer(BoxLayout):
         GameState.character_manager.character_dict["Mama"] = Character(name="Steve", intro_text="And I'm Mama")
         self.enter_current_room()
         self.grid_manager.set_root_container(self)
-        self.temp_set_hp(CharacterManager.character_dict["Player"].get_stats()["Health"],
-                         CharacterManager.character_dict["Player"].get_stats()["Max Health"])
+        self.temp_set_hp(GameState.character_manager.character_dict["Player"].get_stats()["Health"],
+                         GameState.character_manager.character_dict["Player"].get_stats()["Max Health"])
 
     # Accepts a dict of info to update the screen
     def update_view_info(self, info):
@@ -72,8 +72,8 @@ class GameContainer(BoxLayout):
         self.character_display.update_health(current_hp, max_hp)
 
     def enter_current_room(self):
-        self.update_view_info({"Commands": RoomManager.room_map.current_room.get_room_command_dict(),
-                               "Log": RoomManager.room_map.current_room.get_room_desc()})
+        self.update_view_info({"Commands": self.room_manager.room_map.current_room.get_room_command_dict(),
+                               "Log": self.room_manager.room_map.current_room.get_room_desc()})
 
     def update_log(self, new_text):
         self.scrollable_widget.update_text(new_text)
@@ -81,7 +81,7 @@ class GameContainer(BoxLayout):
     def update_context_menu(self, command_dict):
         self.grid_manager.clear_buttons()
         top_row_iter = 0
-        self.grid_manager.button_list[9].set_command(TempChangeHPCommand(CharacterManager.character_dict["Player"], 10))
+        self.grid_manager.button_list[9].set_command(TempChangeHPCommand(GameState.character_manager.character_dict["Player"], 10))
         self.grid_manager.button_list[9].set_display_text("hpmod+")
         self.grid_manager.button_list[4].set_command(
             TempChangeHPCommand(GameState.character_manager.character_dict["Player"], -10))

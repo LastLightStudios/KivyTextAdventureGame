@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import json
+import GameState
 from Commands import DirectDialogueCommand, EnterCurrentRoomCommand
 
 
@@ -64,7 +65,7 @@ class Story(object):
         self.current_story_options = {}
         self.current_story_log = ""
         if link_path == self.full_dict["data"]["initial"]:
-            self.current_story_options["Back"] = EnterCurrentRoomCommand()
+            self.current_story_options["Back"] = EnterCurrentRoomCommand(GameState)
         else:
             self.current_story_options["Back"] = DirectDialogueCommand(self, self.current_stitch_name)
             print("Back option is" + self.current_stitch_name)
@@ -76,7 +77,7 @@ class Story(object):
     def initialize_story(self):
         self.stitches = self.full_dict["data"]["stitches"]
         self.current_stitch_name = self.full_dict["data"]["initial"]
-        self.current_story_options = {"Back": EnterCurrentRoomCommand()}
+        self.current_story_options = {"Back": EnterCurrentRoomCommand(GameState)}
         self.building_node(self.stitches[self.current_stitch_name])
 
 # DialogueManager singleton definition

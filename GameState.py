@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-
 from collections import defaultdict
 from CharacterManager import CharacterManager
+from RoomManager import RoomManager
 
 event_callbacks = defaultdict(default_factory=list)
+room_manager = RoomManager()
 character_manager = CharacterManager()
 
 

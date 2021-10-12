@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 import jsonpickle
-import CharacterManager
+import GameState
 
 from Commands import InteractCommand, TravelCommand
 
@@ -33,124 +33,116 @@ class RoomMap(object):
 
 
 # RoomManager singleton definition
-
-room_map = RoomMap()
-
-
-# Read/Write Map Methods
-def create_new_map():
-    global room_map
-    room_map = RoomMap()
-    generate_default_map()
+@dataclass()
+class RoomManager:
+    room_map: RoomMap = RoomMap()
 
 
-def load(file_path):
-    with open(file_path, "r") as load_file:
-        frozen = load_file.read()
-        map_obj = jsonpickle.decode(frozen)
-        global room_map
-        room_map = map_obj
+    # Read/Write Map Methods
+    def create_new_map(self):
+        self.room_map = RoomMap()
+        generate_default_map()
 
 
-def save(file_path):
-    global room_map
-    temp_string = jsonpickle.encode(room_map, indent=4, keys=True)
-    with open(file_path, "w") as save_file:
-        save_file.write(temp_string)
+    def load(self, file_path):
+        with open(file_path, "r") as load_file:
+            frozen = load_file.read()
+            map_obj = jsonpickle.decode(frozen)
+            self.room_map = map_obj
 
 
-def print_map():
-    global room_map
-    print(jsonpickle.encode(room_map, indent=4, keys=True))
+    def save(self, file_path):
+        temp_string = jsonpickle.encode(room_map, indent=4, keys=True)
+        with open(file_path, "w") as save_file:
+            self.save_file.write(temp_string)
 
 
-# Modifying Map Data Methods
-def add_room(new_room):
-    global room_map
-    if new_room.name in room_map.rooms:
-        print(new_room.name + "already exists")
-        return False
-    else:
-        room_map.rooms[new_room.name] = new_room
-        print(new_room.name + " added to rooms")
-        if room_map.current_room is None:
-            room_map.current_room = new_room
-            print(new_room.name + " set as current_room")
-        new_room.room_map = room_map
-        return True
+    def print_map(self):
+        print(jsonpickle.encode(self.room_map, indent=4, keys=True))
 
 
-def set_starting_room(room):
-    global room_map
-    room_map.starting_room = room
+    # Modifying Map Data Methods
+    def add_room(self, new_room):
+        if new_room.name in self.room_map.rooms:
+            print(new_room.name + "already exists")
+            return False
+        else:
+            room_map.rooms[new_room.name] = new_room
+            print(new_room.name + " added to rooms")
+            if self.room_map.current_room is None:
+                self.room_map.current_room = new_room
+                print(new_room.name + " set as current_room")
+            new_room.room_map = self.room_map
+            return True
 
 
-def change_name(room, name):
-    global room_map
-    log = ""
-    old_name = room.name
-    # does the room exist in this manager
-    if old_name in room_map.rooms:
-        # is there already an existing room with the new name
-        if name in room_map.rooms:
-            log += "The room: " + name + "has been overwritten"
-        # change the name of the room
-        room.name = name
-        # add the room to the dictionary of rooms with a matching name as the key
-        room_map.rooms[name] = room
-        # remove the old key:value
-        del room_map.rooms[old_name]
+    def set_starting_room(self, room):
+        self.room_map.starting_room = room
 
 
-def does_room_exist(new_name):
-    global room_map
-    if new_name in room_map.rooms:
-        return True
-    else:
-        return False
+    def change_name(self, room, name):
+        log = ""
+        old_name = room.name
+        # does the room exist in this manager
+        if old_name in self.room_map.rooms:
+            # is there already an existing room with the new name
+            if name in self.room_map.rooms:
+                log += "The room: " + name + "has been overwritten"
+            # change the name of the room
+            room.name = name
+            # add the room to the dictionary of rooms with a matching name as the key
+            self.room_map.rooms[name] = room
+            # remove the old key:value
+            del self.room_map.rooms[old_name]
 
 
-def travel(direction):
-    global room_map
-    return room_map.travel(direction)
+    def does_room_exist(self, new_name):
+        if new_name in self.room_map.rooms:
+            return True
+        else:
+            return False
 
 
-def generate_new_default_map():
-    home = Room(name="Home")
-    home.set_desc("This is the starting room.")
-    add_room(home)
-    set_starting_room(home)
+    def travel(self, direction):
+        return self.room_map.travel(direction)
 
 
-def generate_default_map():
-    home = Room("Home")
-    home.set_desc("This is the starting room.")
-    add_room(home)
-    left_room = Room("Left Room")
-    left_room.set_desc("Welcome to the Left Room.")
-    add_room(left_room)
-    right_room = Room("Right Room")
-    right_room.set_desc("Welcome to the dining room.")
-    add_room(right_room)
-    porch = Room("Porch")
-    porch.set_desc("This is the porch. There is a new nice view of the street.")
-    add_room(porch)
-    living_room = Room("Living Room")
-    living_room.set_desc("This is living room. You can see a nice couch. To the right you can see the kitchen.")
-    add_room(living_room)
-    kitchen = Room("Kitchen")
-    kitchen.set_desc("This is the kitchen. There is a dirty pot on the stove and two more in the sink.")
-    add_room(kitchen)
-    home.create_new_edge("Left", "Left Room")
-    left_room.create_new_edge("Right", "Home")
-    home.create_new_edge("Right", "Right Room")
-    right_room.create_new_edge("Left", "Home")
-    home.create_new_edge("Backward", "Living Room")
-    living_room.create_new_edge("Forward", "Home")
-    right_room.create_new_edge("Backward", "Kitchen")
-    kitchen.create_new_edge("Forward", "Right Room")
-    living_room.create_new_edge("Right", "Kitchen")
-    kitchen.create_new_edge("Left", "Living Room")
+    def generate_new_default_map(self):
+        home = Room(name="Home")
+        home.set_desc("This is the starting room.")
+        self.add_room(home)
+        self.set_starting_room(home)
+
+
+    def generate_default_map(self):
+        home = Room("Home")
+        home.set_desc("This is the starting room.")
+        self.add_room(home)
+        left_room = Room("Left Room")
+        left_room.set_desc("Welcome to the Left Room.")
+        self.add_room(left_room)
+        right_room = Room("Right Room")
+        right_room.set_desc("Welcome to the dining room.")
+        self.add_room(right_room)
+        porch = Room("Porch")
+        porch.set_desc("This is the porch. There is a new nice view of the street.")
+        self.add_room(porch)
+        living_room = Room("Living Room")
+        living_room.set_desc("This is living room. You can see a nice couch. To the right you can see the kitchen.")
+        self.add_room(living_room)
+        kitchen = Room("Kitchen")
+        kitchen.set_desc("This is the kitchen. There is a dirty pot on the stove and two more in the sink.")
+        self.add_room(kitchen)
+        home.create_new_edge("Left", "Left Room")
+        left_room.create_new_edge("Right", "Home")
+        home.create_new_edge("Right", "Right Room")
+        right_room.create_new_edge("Left", "Home")
+        home.create_new_edge("Backward", "Living Room")
+        living_room.create_new_edge("Forward", "Home")
+        right_room.create_new_edge("Backward", "Kitchen")
+        kitchen.create_new_edge("Forward", "Right Room")
+        living_room.create_new_edge("Right", "Kitchen")
+        kitchen.create_new_edge("Left", "Living Room")
 
 
 @dataclass()
@@ -219,5 +211,5 @@ class Room(object):
         for key in self.connected_rooms:
             command_dict[key] = TravelCommand(self.owner, key)
         for name in self.characters:
-            command_dict[name] = InteractCommand(CharacterManager.character_dict[name])
+            command_dict[name] = InteractCommand(GameState, GameState.character_manager.character_dict[name])
         return command_dict

@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from Commands import EnterCurrentRoomCommand
 import DialogueManager
-
+import GameState
 
 @dataclass
 class Character(object):
@@ -33,7 +33,7 @@ class Character(object):
         client_callback({"Current Health": self.health, "Log": log})
 
     def get_character_command_dict(self):
-        command_dict = {"Back": EnterCurrentRoomCommand()}
+        command_dict = {"Back": EnterCurrentRoomCommand(GameState)}
         file_path = Path("Dialogue/" + self.name + "Test.txt")
         DialogueManager.load_story(file_path)
         command_dict.update(DialogueManager.story.get_story_commands())
@@ -43,20 +43,23 @@ class Character(object):
 
 @dataclass()
 class CharacterManager:
-    character_dict: dict = field(default_factory={"Player": Character(name="Player")})
+    character_dict: dict = field(default_factory=dict)
 
-    def load(file_path):
+    def __post_init__(self):
+        self.character_dict = {"Player": Character(name="Player")}
+
+    def load(self, file_path):
         with open(file_path, "r") as load_file:
             frozen = load_file.read()
             char_info = jsonpickle.decode(frozen)
             for key, value in char_info:
-                character_dict[key] = value
+                self.character_dict[key] = value
 
-    def save(file_path):
-        char_info = jsonpickle.encode(character_dict, indent=4, keys=True)
+    def save(self, file_path):
+        char_info = jsonpickle.encode(self.character_dict, indent=4, keys=True)
         with open(file_path, "w") as save_file:
             save_file.write(char_info)
 
-    def interact_with_character(character, client_callback):
+    def interact_with_character(self, character, client_callback):
         client_callback({"Commands": character.get_character_command_dict(),
                          "Log": DialogueManager.story.get_story_log()})
