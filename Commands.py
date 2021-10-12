@@ -1,21 +1,53 @@
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
+
+import CharacterManager
+import RoomManager
 
 
 class Command(ABC):
     """
     The Command interface declares a method for executing a command.
-    """
 
+    def __init__(self, *args):
+    *args will be passed in from the Model. The Model creates the command.
+
+    def execute(self, client) -> None:
+    client is a callback to pass the information to the View
+    execute should call something like
+    manager.function(*args, client.callback)
+    """
     @abstractmethod
     def execute(self, client) -> None:
         pass
 
 
+class TempSetHPCommand(Command):
+
+    def __init__(self, current_hp, max_hp):
+        self.current_hp = current_hp
+        self.max_hp = max_hp
+
+    def execute(self, client) -> None:
+        client.temp_set_hp(self.current_hp, self.max_hp)
+
+
+class TempChangeHPCommand(Command):
+
+    def __init__(self, character, amount):
+        self.character = character
+        self.amount = amount
+
+    def execute(self, client) -> None:
+        self.character.modify_health(self.amount, client.update_view_info)
+
+
+# used on exiting a dialogue tree
 class EnterCurrentRoomCommand(Command):
 
     def execute(self, client) -> None:
-        client.enter_current_room()
+        RoomManager.room_map.enter_current_room(client.update_view_info)
 
 
 class InteractCommand(Command):
@@ -24,7 +56,7 @@ class InteractCommand(Command):
         self.character = character
 
     def execute(self, client) -> None:
-        client.interact_with_character(self.character)
+        CharacterManager.interact_with_character(self.character, client.update_view_info)
 
 
 class DirectDialogueCommand(Command):
@@ -35,7 +67,7 @@ class DirectDialogueCommand(Command):
 
     def execute(self, client) -> None:
         print("Executing to linkpath" + self.link_path)
-        self.story.build_node(self.link_path, client.dialogue_pressed)
+        self.story.build_node(self.link_path, client.update_view_info)
 
 
 class AddFlagDialogueCommand(Command):
@@ -55,4 +87,4 @@ class TravelCommand(Command):
         self._direction = direction
 
     def execute(self, client) -> None:
-        self._room_map.travel(self._direction, client.enter_room)
+        self._room_map.travel(self._direction, client.update_view_info)

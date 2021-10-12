@@ -1,14 +1,18 @@
 import kivy
+
 kivy.require('2.0.0')
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 
+from StatDisplay import CharacterStatBlockDisplay  # surprised i dont need to import the context menu?
+
 import RoomManager
 import CharacterManager
 import DialogueManager
 from CharacterManager import Character
-from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand
+from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempSetHPCommand, \
+    TempChangeHPCommand
 
 
 class LeftPanelWidget(Widget):
@@ -32,16 +36,13 @@ class CenterPanelWidget(BoxLayout):
     def __init__(self, **kwargs):
         super(CenterPanelWidget, self).__init__(**kwargs)
 
-    def init_complete(self):
-        for child in self.children:
-            child.init_complete()
-
 
 class GameContainer(BoxLayout):
     left_panel = ObjectProperty()
     right_panel = ObjectProperty()
     scrollable_widget = ObjectProperty()
     grid_manager = ObjectProperty()
+    character_display = ObjectProperty()
 
     def __init__(self, **kwargs):
         super(GameContainer, self).__init__(**kwargs)
@@ -54,29 +55,37 @@ class GameContainer(BoxLayout):
         CharacterManager.character_dict["Mama"] = Character(name="Steve", intro_text="And I'm Mama")
         self.enter_current_room()
         self.grid_manager.set_root_container(self)
+        self.temp_set_hp(CharacterManager.character_dict["Player"].get_stats()["Health"],
+                         CharacterManager.character_dict["Player"].get_stats()["Max Health"])
 
-    def interact_with_character(self, character):
-        self.update_context_menu(character.get_character_command_dict())
-        self.update_log(DialogueManager.story.get_story_log())
-        #self.update_log(character.get_intro_text())
+    # Accepts a dict of info to update the screen
+    def update_view_info(self, info):
+        if "Commands" in info:
+            self.update_context_menu(info["Commands"])
+        if "Log" in info:
+            self.update_log(info["Log"])
+        if "Current Health" in info:
+            self.character_display.update_current_health(info["Current Health"])
+
+    # only used on setup for now
+    def temp_set_hp(self, current_hp, max_hp):
+        self.character_display.update_health(current_hp, max_hp)
 
     def enter_current_room(self):
-        self.enter_room(self.room_manager.room_map.current_room)
-
-    def enter_room(self, room):
-        self.update_log(room.get_room_desc())
-        self.update_context_menu(room.get_room_command_dict())
+        self.update_view_info({"Commands": RoomManager.room_map.current_room.get_room_command_dict(),
+                               "Log": RoomManager.room_map.current_room.get_room_desc()})
 
     def update_log(self, new_text):
         self.scrollable_widget.update_text(new_text)
 
-    def dialogue_pressed(self, story):
-        self.update_log(story.get_story_log())
-        self.update_context_menu(story.get_story_commands())
-
     def update_context_menu(self, command_dict):
         self.grid_manager.clear_buttons()
         top_row_iter = 0
+        self.grid_manager.button_list[9].set_command(TempChangeHPCommand(CharacterManager.character_dict["Player"], 10))
+        self.grid_manager.button_list[9].set_display_text("hpmod+")
+        self.grid_manager.button_list[4].set_command(
+            TempChangeHPCommand(CharacterManager.character_dict["Player"], -10))
+        self.grid_manager.button_list[4].set_display_text("hpmod-")
         for key, command in command_dict.items():
             if isinstance(command, InteractCommand):
                 if self.grid_manager.button_list[top_row_iter].has_command():
