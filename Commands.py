@@ -38,7 +38,7 @@ class TempChangeHPCommand(Command):
         self.amount = amount
 
     def execute(self, client) -> None:
-        self.character.modify_health(self.amount, client.update_view_info)
+        self.character.modify_health(self.amount)
 
 
 # used on exiting a dialogue tree

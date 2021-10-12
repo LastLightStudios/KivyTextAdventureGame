@@ -57,6 +57,13 @@ class GameContainer(BoxLayout):
         self.grid_manager.set_root_container(self)
         self.temp_set_hp(GameState.character_manager.character_dict["Player"].get_stats()["Health"],
                          GameState.character_manager.character_dict["Player"].get_stats()["Max Health"])
+        GameState.register("Log", self)
+
+    def listener_event(self, info):
+        if info["Clear"]:
+            self.scrollable_widget.replace_text(info["Log"])
+        else:
+            self.scrollable_widget.add_text(info["Log"])
 
     # Accepts a dict of info to update the screen
     def update_view_info(self, info):
@@ -64,8 +71,6 @@ class GameContainer(BoxLayout):
             self.update_context_menu(info["Commands"])
         if "Log" in info:
             self.update_log(info["Log"])
-        if "Current Health" in info:
-            self.character_display.update_current_health(info["Current Health"])
 
     # only used on setup for now
     def temp_set_hp(self, current_hp, max_hp):
@@ -76,7 +81,7 @@ class GameContainer(BoxLayout):
                                "Log": self.room_manager.room_map.current_room.get_room_desc()})
 
     def update_log(self, new_text):
-        self.scrollable_widget.update_text(new_text)
+        self.scrollable_widget.replace_text(new_text)
 
     def update_context_menu(self, command_dict):
         self.grid_manager.clear_buttons()

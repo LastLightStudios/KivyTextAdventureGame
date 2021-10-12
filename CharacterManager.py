@@ -23,14 +23,15 @@ class Character(object):
     def get_stats(self):
         return {"Health": self.health, "Max Health": self.max_health}
 
-    def modify_health(self, amount, client_callback):
-        log = ""
+    def modify_health(self, amount):
+        log = "Health Changed"
         self.health += amount
         if self.health <= 0 and amount < 0:
             log = "Stop, you're already dead!"
         elif self.health > self.max_health:
             log = "You look bloated."
-        client_callback({"Current Health": self.health, "Log": log})
+        GameState.publish("Health Change", {"Player": self.health})
+        GameState.publish("Log", {"Log": log, "Clear": False})
 
     def get_character_command_dict(self):
         command_dict = {"Back": EnterCurrentRoomCommand(GameState)}

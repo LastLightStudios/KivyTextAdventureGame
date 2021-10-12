@@ -79,4 +79,4 @@ class CharacterStatBlockDisplay(BoxLayout):
     def listener_event(self, info):
         print("listener called")
         if "Player" in info:
-            self.update_current_health(info["Health"])
+            self.update_current_health(info["Player"])
