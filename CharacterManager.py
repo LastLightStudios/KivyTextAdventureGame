@@ -40,6 +40,11 @@ class Character(object):
         # for string in self.dialogue_options_list:
         return command_dict
 
+    def get_temp_dict(self):
+        command_dict = {"Back": EnterCurrentRoomCommand(GameState)}
+        ## will add battle commands
+        return command_dict
+
 
 @dataclass()
 class CharacterManager:
@@ -62,6 +67,6 @@ class CharacterManager:
 
     def interact_with_character(self, character, client_callback):
         GameState.publish("Commands", {"Commands": character.get_character_command_dict()})
-        GameState.publish("Log", {"Log": GameState.dialogue_manager.story.get_story_log(), "Clear": True})
-        #client_callback({"Commands": character.get_character_command_dict(),
-                         #"Log": DialogueManager.story.get_story_log()})
+        GameState.publish("Log", {"Log": "Interacting with " + character.name, "Clear": True})
+        # temporarily excluding story part for now
+        # GameState.publish("Log", {"Log": GameState.dialogue_manager.story.get_story_log(), "Clear": True})

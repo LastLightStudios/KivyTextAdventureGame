@@ -6,13 +6,13 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 
 from StatDisplay import CharacterStatBlockDisplay  # surprised i dont need to import the context menu?
+from KivyOtherCharacterManager import KivyCharacterManager
 
 import GameState
 import RoomManager
 import DialogueManager
 from CharacterManager import Character
-from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempSetHPCommand, \
-    TempChangeHPCommand
+from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempChangeHPCommand
 
 
 class LeftPanelWidget(Widget):
