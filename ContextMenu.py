@@ -6,7 +6,6 @@ from kivy.uix.widget import Widget
 
 
 class DynamicButton(Widget):
-    root_container = ObjectProperty()
     display_text = StringProperty("")
 
     def __init__(self, **kwargs):
@@ -42,10 +41,6 @@ class GridManager(GridLayout):
     def set_button_command_and_text(self, button_number, text, command):
         self.button_list[button_number].set_display_text(text)
         self.button_list[button_number].set_command(command)
-
-    def set_root_container(self, root_container):
-        self.root_container = root_container
-        DynamicButton.root_container = self.root_container # I think this is changing the class property and thats why it works?
 
     def clear_buttons(self):
         for button in self.button_list:

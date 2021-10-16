@@ -54,7 +54,6 @@ class GameContainer(BoxLayout):
         GameState.character_manager.character_dict["Joe"] = Character(name="Steve", intro_text="It's Joe")
         GameState.character_manager.character_dict["Mama"] = Character(name="Steve", intro_text="And I'm Mama")
         self.enter_current_room()
-        self.grid_manager.set_root_container(self)
         self.temp_set_hp(GameState.character_manager.character_dict["Player"].get_stats()["Health"],
                          GameState.character_manager.character_dict["Player"].get_stats()["Max Health"])
         # this one probably gets moved down to the scrollable widget - which is currently sitting in main
