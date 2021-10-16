@@ -59,7 +59,7 @@ class Story(object):
             self.building_node(self.find_next_stitch(stitch))
 
     # link_path is just a string that corresponds to the stitch
-    def build_node(self, link_path, client_call_back):
+    def build_node(self, link_path):
         print("Current stitch is " + self.current_stitch_name)
         # Resets the command dict and story log
         self.current_story_options = {}
@@ -71,8 +71,8 @@ class Story(object):
             print("Back option is" + self.current_stitch_name)
         self.current_stitch_name = link_path
         self.building_node(self.stitches[link_path])
-        client_call_back({"Commands": self.get_story_commands(),
-                          "Log": self.get_story_log()})
+        GameState.publish("Commands", {"Commands": self.get_story_commands()})
+        GameState.publish("Log", {"Log": self.get_story_log(), "Clear": True})
 
     def initialize_story(self):
         self.stitches = self.full_dict["data"]["stitches"]

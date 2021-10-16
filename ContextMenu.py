@@ -15,7 +15,7 @@ class DynamicButton(Widget):
 
     def on_press(self):
         if self.command:
-            self.command.execute(self.root_container)
+            self.command.execute()
 
     def set_command(self, command) -> None:
         self.command = command

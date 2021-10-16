@@ -65,7 +65,7 @@ class CharacterManager:
         with open(file_path, "w") as save_file:
             save_file.write(char_info)
 
-    def interact_with_character(self, character, client_callback):
+    def interact_with_character(self, character):
         GameState.publish("Commands", {"Commands": character.get_character_command_dict()})
         GameState.publish("Log", {"Log": "Interacting with " + character.name, "Clear": True})
         # temporarily excluding story part for now
