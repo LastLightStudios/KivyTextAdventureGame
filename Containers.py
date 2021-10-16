@@ -102,6 +102,8 @@ class GameContainer(BoxLayout):
         self.grid_manager.button_list[4].set_display_text("hpmod-")
         for key, command in command_dict.items():
             if isinstance(command, InteractCommand):
+                pass
+                """
                 if self.grid_manager.button_list[top_row_iter].has_command():
                     top_row_iter += 1
                     self.grid_manager.button_list[top_row_iter].set_command(command)
@@ -109,6 +111,7 @@ class GameContainer(BoxLayout):
                 else:
                     self.grid_manager.button_list[top_row_iter].set_command(command)
                     self.grid_manager.button_list[top_row_iter].set_display_text(key)
+                """
             elif isinstance(command, TravelCommand):
                 self.grid_manager.button_list[self.convert_dir_to_button(key)].set_command(command)
                 self.grid_manager.button_list[self.convert_dir_to_button(key)].set_display_text(key)

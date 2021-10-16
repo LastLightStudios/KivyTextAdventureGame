@@ -48,13 +48,14 @@
     cols:1
 
 <KivyCharacterManager>
+    list_scroll_manager: list_scroll_manager
     orientation: 'vertical'
     Button:
         text: root.display_text
         size_hint_y: 0.25
     ScrollView:
         ListScrollManager:
-            id: list
+            id: list_scroll_manager
 
 <GameContainer>:
     left_panel: left_panel
