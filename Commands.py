@@ -2,9 +2,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-import CharacterManager
-import RoomManager
-
 
 class Command(ABC):
     """
@@ -18,19 +15,10 @@ class Command(ABC):
     execute should call something like
     manager.function(*args, client.callback)
     """
+
     @abstractmethod
     def execute(self, client) -> None:
         pass
-
-
-class TempSetHPCommand(Command):
-
-    def __init__(self, current_hp, max_hp):
-        self.current_hp = current_hp
-        self.max_hp = max_hp
-
-    def execute(self, client) -> None:
-        client.temp_set_hp(self.current_hp, self.max_hp)
 
 
 class TempChangeHPCommand(Command):
@@ -39,24 +27,28 @@ class TempChangeHPCommand(Command):
         self.character = character
         self.amount = amount
 
-    def execute(self, client) -> None:
-        self.character.modify_health(self.amount, client.update_view_info)
+    def execute(self) -> None:
+        self.character.modify_health(self.amount)
 
 
 # used on exiting a dialogue tree
 class EnterCurrentRoomCommand(Command):
 
-    def execute(self, client) -> None:
-        RoomManager.room_map.enter_current_room(client.update_view_info)
+    def __init__(self, game_state):
+        self.game_state = game_state
+
+    def execute(self) -> None:
+        self.game_state.room_manager.room_map.enter_current_room()
 
 
 class InteractCommand(Command):
 
-    def __init__(self, character):
+    def __init__(self, game_state, character):
+        self.game_state = game_state
         self.character = character
 
-    def execute(self, client) -> None:
-        CharacterManager.interact_with_character(self.character, client.update_view_info)
+    def execute(self) -> None:
+        self.game_state.character_manager.interact_with_character(self.character)
 
 
 class DirectDialogueCommand(Command):
@@ -65,17 +57,17 @@ class DirectDialogueCommand(Command):
         self.story = story
         self.link_path = link_path
 
-    def execute(self, client) -> None:
+    def execute(self) -> None:
         print("Executing to linkpath" + self.link_path)
-        self.story.build_node(self.link_path, client.update_view_info)
+        self.story.build_node(self.link_path)
 
-
+# TODO story stuff
 class AddFlagDialogueCommand(Command):
 
     def __init__(self, link_path):
         self.link_path = link_path
 
-    def execute(self, client) -> None:
+    def execute(self) -> None:
         # will look like direct dialogue command but additionally add a flag wherever
         pass
 
@@ -86,5 +78,5 @@ class TravelCommand(Command):
         self._room_map = room_map
         self._direction = direction
 
-    def execute(self, client) -> None:
-        self._room_map.travel(self._direction, client.update_view_info)
+    def execute(self) -> None:
+        self._room_map.travel(self._direction)

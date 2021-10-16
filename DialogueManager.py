@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 import json
+import GameState
 from Commands import DirectDialogueCommand, EnterCurrentRoomCommand
 
 
@@ -56,32 +59,26 @@ class Story(object):
             self.building_node(self.find_next_stitch(stitch))
 
     # link_path is just a string that corresponds to the stitch
-    def build_node(self, link_path, client_call_back):
+    def build_node(self, link_path):
         print("Current stitch is " + self.current_stitch_name)
         # Resets the command dict and story log
         self.current_story_options = {}
         self.current_story_log = ""
         if link_path == self.full_dict["data"]["initial"]:
-            self.current_story_options["Back"] = EnterCurrentRoomCommand()
+            self.current_story_options["Back"] = EnterCurrentRoomCommand(GameState)
         else:
             self.current_story_options["Back"] = DirectDialogueCommand(self, self.current_stitch_name)
             print("Back option is" + self.current_stitch_name)
         self.current_stitch_name = link_path
         self.building_node(self.stitches[link_path])
-        client_call_back({"Commands": self.get_story_commands(),
-                          "Log": self.get_story_log()})
+        GameState.publish("Commands", {"Commands": self.get_story_commands()})
+        GameState.publish("Log", {"Log": self.get_story_log(), "Clear": True})
 
     def initialize_story(self):
         self.stitches = self.full_dict["data"]["stitches"]
         self.current_stitch_name = self.full_dict["data"]["initial"]
-        self.current_story_options = {"Back": EnterCurrentRoomCommand()}
+        self.current_story_options = {"Back": EnterCurrentRoomCommand(GameState)}
         self.building_node(self.stitches[self.current_stitch_name])
-
-# DialogueManager singleton definition
-
-
-# total story info
-story = Story()  # the full dictionary
 
 
 # 4 methods
@@ -91,9 +88,15 @@ story = Story()  # the full dictionary
 # build node -> this will call the first two
 # it will recursively call itself if the 3rd method returns a stitch
 
-def load_story(file_path):
-    global story
-    with open(file_path, "r") as load_file:
-        frozen = load_file.read()
-        story.full_dict = json.loads(frozen)
-    story.initialize_story()
+
+# DialogueManager singleton definition
+
+@dataclass()
+class DialogueManager:
+    story: Story = Story()  # the full dictionary
+
+    def load_story(self, file_path):
+        with open(file_path, "r") as load_file:
+            frozen = load_file.read()
+            self.story.full_dict = json.loads(frozen)
+        self.story.initialize_story()
