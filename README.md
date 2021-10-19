@@ -2,7 +2,7 @@
 
 ## Overview
 This game is a collaboration between a friend and I. This game will be a text based RPG with
-context menu the bottom to act as a controller for the Player.
+the context menu in the bottom to act as a controller for the Player.
 
 This is the latest progress video: https://www.youtube.com/watch?v=89AgGVK0FEY
 
