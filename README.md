@@ -21,8 +21,10 @@ I will do my best to keep this readme updated with the most recent progress vide
 
 
 ## TODO:
-Combat and everything that entails
+Combat and everything that entails:
+
 Enemy health tracking
+
 Turn order
 
 Eventually, damage types and so on are planned.
