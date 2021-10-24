@@ -13,7 +13,6 @@ from kivy.uix.widget import Widget
 
 
 class DynamicStatBar(BoxLayout):
-    root_container = ObjectProperty()
     display_text = StringProperty("Stat")
     maximum_value = NumericProperty()
     current_value = NumericProperty()
@@ -47,8 +46,7 @@ class DynamicStatBar(BoxLayout):
 
 
 class CharacterStatBlockDisplay(BoxLayout):
-    root_container = ObjectProperty()
-    character_name = StringProperty()
+    character_name = StringProperty("Player")
     stat_dict = {}
 
     def __init__(self, **kwargs):
@@ -58,9 +56,8 @@ class CharacterStatBlockDisplay(BoxLayout):
         self.add_widget(health_bar)
         GameState.register("Health Change", self)
 
-    def set_root_container(self, root_container):
-        self.root_container = root_container
-        DynamicStatBar.root_container = self.root_container
+    def change_character_name(self, name):
+        self.character_name = name
 
     def init_health(self, max_hp):
         self.stat_dict["Health_Bar"].set_max_value(max_hp)
@@ -78,5 +75,5 @@ class CharacterStatBlockDisplay(BoxLayout):
 
     def listener_event(self, info):
         print("listener called")
-        if "Player" in info:
-            self.update_current_health(info["Player"])
+        if self.character_name in info:
+            self.update_current_health(info[self.character_name])

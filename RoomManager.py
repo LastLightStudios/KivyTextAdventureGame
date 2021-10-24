@@ -16,6 +16,7 @@ class RoomMap(object):
         self.rooms = {}
 
     def enter_current_room(self):
+        GameState.publish("Phase Change", {"Phase": "Room"})
         GameState.publish("Commands", message={"Commands": self.current_room.get_room_command_dict()})
         GameState.publish("Log", message={"Log": self.current_room.get_room_desc(), "Clear": True})
 
@@ -41,7 +42,7 @@ class RoomManager:
     # Read/Write Map Methods
     def create_new_map(self):
         self.room_map = RoomMap()
-        generate_default_map()
+        self.generate_default_map()
 
 
     def load(self, file_path):

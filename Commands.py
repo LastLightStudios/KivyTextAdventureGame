@@ -17,7 +17,7 @@ class Command(ABC):
     """
 
     @abstractmethod
-    def execute(self, client) -> None:
+    def execute(self) -> None:
         pass
 
 
@@ -29,6 +29,16 @@ class TempChangeHPCommand(Command):
 
     def execute(self) -> None:
         self.character.modify_health(self.amount)
+
+
+class TempChangePhaseCommand(Command):
+
+    def __init__(self, game_state, game_phase):
+        self.game_state = game_state
+        self.game_phase = game_phase
+
+    def execute(self) -> None:
+        self.game_state.change_game_phase(self.game_phase)
 
 
 # used on exiting a dialogue tree

@@ -62,7 +62,6 @@
     right_panel: right_panel
     scrollable_widget: scrollable_widget
     grid_manager: grid_manager
-    character_display: character_display
     orientation: 'horizontal'
     LeftPanelWidget:
         id: left_panel
@@ -72,10 +71,9 @@
         	pos: root.left_panel.pos
             orientation: 'vertical'
             Button:
-                text: 'Part List'
+                text: 'Party List'
                 size_hint_y: 0.2
             CharacterStatBlockDisplay:
-                id: character_display
                 size_hint_y: 0.2
             Button:
                 text: 'details'

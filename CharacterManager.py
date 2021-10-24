@@ -37,6 +37,7 @@ class Character(object):
         file_path = Path("Dialogue/" + self.name + "Test.txt")
         GameState.dialogue_manager.load_story(file_path)
         command_dict.update(GameState.dialogue_manager.story.get_story_commands())
+        # add fight here?
         # for string in self.dialogue_options_list:
         return command_dict
 
