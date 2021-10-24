@@ -30,9 +30,9 @@ class DynamicStatBar(BoxLayout):
 
     # for some reason the size is getting called again after everything is made and messing everything up
     def update_bar_visual(self, *args):
-        print(str(self.fill_bar.size))
+        #print(str(self.fill_bar.size))
         self.current_size = [self.current_percent * self.fill_bar.size[0], self.fill_bar.size[1]]
-        print(str(self.current_size))
+        #print(str(self.current_size))
         self.display_value = str(self.current_value) + "/" + str(self.maximum_value)
 
     def set_max_value(self, value):
@@ -42,17 +42,15 @@ class DynamicStatBar(BoxLayout):
         self.current_value = value
         self.current_percent = (max(0, min(self.maximum_value, value))) / self.maximum_value
         self.update_bar_visual()
-        print("Updated bar")
 
 
 class CharacterStatBlockDisplay(BoxLayout):
     character_name = StringProperty("Player")
-    stat_dict = {}
 
     def __init__(self, **kwargs):
         super(CharacterStatBlockDisplay, self).__init__(**kwargs)
         health_bar = DynamicStatBar()
-        self.stat_dict["Health_Bar"] = health_bar
+        self.stat_dict = {"Health_Bar": health_bar}
         self.add_widget(health_bar)
         GameState.register("Health Change", self)
 
@@ -74,6 +72,7 @@ class CharacterStatBlockDisplay(BoxLayout):
         self.stat_dict["Health_Bar"].set_current_value(current_hp)
 
     def listener_event(self, info):
-        print("listener called")
+        print("Health bar " + self.character_name + " receiving")
         if self.character_name in info:
             self.update_current_health(info[self.character_name])
+            print("Updated character health: " + self.character_name)

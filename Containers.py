@@ -76,6 +76,7 @@ class RightPanelWidget(Widget):
         layout.add_widget(Button(text="more stuff", size_hint_y=0.3))
         self.add_widget(layout)
 
+
 class CenterPanelWidget(BoxLayout):
 
     def __init__(self, **kwargs):
@@ -94,13 +95,14 @@ class GameContainer(BoxLayout):
         self.room_manager = GameState.room_manager
         self.room_manager.load(r"Maps\NewFile2.txt")
         # need to load in characters before room, b/c room has Interact which needs chara ref
-        GameState.character_manager.character_dict["Joanna"] = Character(name="Joanna", intro_text="I'm Joanna, how are you?")
+        GameState.character_manager.character_dict["Joanna"] = Character(name="Joanna",
+                                                                         intro_text="I'm Joanna, how are you?")
         GameState.character_manager.character_dict["Steve"] = Character(name="Steve", intro_text="Sup, I'm Steve")
         GameState.character_manager.character_dict["Joe"] = Character(name="Steve", intro_text="It's Joe")
         GameState.character_manager.character_dict["Mama"] = Character(name="Steve", intro_text="And I'm Mama")
         self.enter_current_room()
-        #self.temp_set_hp(GameState.character_manager.character_dict["Player"].get_stats()["Health"],
-                         #GameState.character_manager.character_dict["Player"].get_stats()["Max Health"])
+        # self.temp_set_hp(GameState.character_manager.character_dict["Player"].get_stats()["Health"],
+        # GameState.character_manager.character_dict["Player"].get_stats()["Max Health"])
         # this one probably gets moved down to the scrollable widget - which is currently sitting in main
         GameState.register("Log", self)
         # this one probably gets moved down to commands later
@@ -147,7 +149,8 @@ class GameContainer(BoxLayout):
             TempChangeHPCommand(GameState.character_manager.character_dict["Player"], -10))
         self.grid_manager.button_list[4].set_display_text("hpmod-")
         # increase hp
-        self.grid_manager.button_list[9].set_command(TempChangeHPCommand(GameState.character_manager.character_dict["Player"], 10))
+        self.grid_manager.button_list[9].set_command(
+            TempChangeHPCommand(GameState.character_manager.character_dict["Player"], 10))
         self.grid_manager.button_list[9].set_display_text("hpmod+")
         # change to room
         self.grid_manager.button_list[3].set_command(EnterCurrentRoomCommand(GameState))

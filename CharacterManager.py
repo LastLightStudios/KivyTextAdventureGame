@@ -29,7 +29,7 @@ class Character(object):
             log = "Stop, you're already dead!"
         elif self.health > self.max_health:
             log = "You look bloated."
-        GameState.publish("Health Change", {"Player": self.health})
+        GameState.publish("Health Change", {self.name: self.health})
         GameState.publish("Log", {"Log": log, "Clear": False})
 
     def get_character_command_dict(self):
