@@ -38,12 +38,10 @@ class RoomMap(object):
 class RoomManager:
     room_map: RoomMap = RoomMap()
 
-
     # Read/Write Map Methods
     def create_new_map(self):
         self.room_map = RoomMap()
         self.generate_default_map()
-
 
     def load(self, file_path):
         with open(file_path, "r") as load_file:
@@ -51,16 +49,13 @@ class RoomManager:
             map_obj = jsonpickle.decode(frozen)
             self.room_map = map_obj
 
-
     def save(self, file_path):
         temp_string = jsonpickle.encode(room_map, indent=4, keys=True)
         with open(file_path, "w") as save_file:
             self.save_file.write(temp_string)
 
-
     def print_map(self):
         print(jsonpickle.encode(self.room_map, indent=4, keys=True))
-
 
     # Modifying Map Data Methods
     def add_room(self, new_room):
@@ -76,10 +71,8 @@ class RoomManager:
             new_room.room_map = self.room_map
             return True
 
-
     def set_starting_room(self, room):
         self.room_map.starting_room = room
-
 
     def change_name(self, room, name):
         log = ""
@@ -96,24 +89,20 @@ class RoomManager:
             # remove the old key:value
             del self.room_map.rooms[old_name]
 
-
     def does_room_exist(self, new_name):
         if new_name in self.room_map.rooms:
             return True
         else:
             return False
 
-
     def travel(self, direction):
         return self.room_map.travel(direction)
-
 
     def generate_new_default_map(self):
         home = Room(name="Home")
         home.set_desc("This is the starting room.")
         self.add_room(home)
         self.set_starting_room(home)
-
 
     def generate_default_map(self):
         home = Room("Home")

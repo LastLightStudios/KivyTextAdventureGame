@@ -21,6 +21,16 @@ class Command(ABC):
         pass
 
 
+class OneVsOneFightCommand(Command):
+
+    def __init__(self, game_state, enemy):
+        self.game_state = game_state
+        self.enemy = enemy
+
+    def execute(self) -> None:
+        self.game_state.enter_combat_with(self.enemy)
+
+
 class TempChangeHPCommand(Command):
 
     def __init__(self, character, amount):

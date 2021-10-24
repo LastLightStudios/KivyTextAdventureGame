@@ -25,3 +25,6 @@ def change_game_phase(new_phase):
     global game_phase
     game_phase = new_phase
     publish("Phase Change", {"Phase": new_phase})
+
+def enter_combat_with(enemy_list):
+    publish("Enter Combat", {"Enemies": enemy_list})

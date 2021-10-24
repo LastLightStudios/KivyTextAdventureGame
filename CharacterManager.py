@@ -3,7 +3,7 @@ from __future__ import annotations
 import jsonpickle
 from dataclasses import dataclass, field
 from pathlib import Path
-from Commands import EnterCurrentRoomCommand
+from Commands import EnterCurrentRoomCommand, OneVsOneFightCommand
 import GameState
 
 @dataclass
@@ -37,6 +37,7 @@ class Character(object):
         file_path = Path("Dialogue/" + self.name + "Test.txt")
         GameState.dialogue_manager.load_story(file_path)
         command_dict.update(GameState.dialogue_manager.story.get_story_commands())
+        command_dict.update({"Fight": OneVsOneFightCommand(GameState, [self])})
         # add fight here?
         # for string in self.dialogue_options_list:
         return command_dict

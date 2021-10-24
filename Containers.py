@@ -14,7 +14,7 @@ import RoomManager
 import DialogueManager
 from CharacterManager import Character
 from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempChangeHPCommand
-from Commands import TempChangePhaseCommand
+from Commands import TempChangePhaseCommand, OneVsOneFightCommand
 
 
 class LeftPanelWidget(Widget):
@@ -37,6 +37,7 @@ class RightPanelWidget(Widget):
     def __init__(self, **kwargs):
         super(RightPanelWidget, self).__init__(**kwargs)
         GameState.register("Phase Change", self)
+        GameState.register("Enter Combat", self)
 
     def listener_event(self, info):
         print("Caught")
@@ -47,6 +48,9 @@ class RightPanelWidget(Widget):
             if info["Phase"] == "Combat":
                 self.clear_widgets()
                 self.create_combat_panel()
+        if "Enemies" in info:
+            self.clear_widgets()
+            self.create_encounter_panel(info["Enemies"])
 
     def create_room_info_panel(self):
         layout = BoxLayout(orientation="vertical", pos=self.pos, size=self.size)
@@ -62,6 +66,15 @@ class RightPanelWidget(Widget):
         layout.add_widget(Button(text="more stuff", size_hint_y=0.3))
         self.add_widget(layout)
 
+    def create_encounter_panel(self, enemy_list):
+        layout = BoxLayout(orientation="vertical", pos=self.pos, size=self.size)
+        new_char_stat = CharacterStatBlockDisplay(size_hint_y=0.2)
+        new_char_stat.change_character_name(enemy_list[0].name)
+        new_char_stat.init_health(enemy_list[0].max_health)
+        layout.add_widget(new_char_stat)
+        layout.add_widget(Button(text="room details", size_hint_y=0.4))
+        layout.add_widget(Button(text="more stuff", size_hint_y=0.3))
+        self.add_widget(layout)
 
 class CenterPanelWidget(BoxLayout):
 
@@ -170,6 +183,10 @@ class GameContainer(BoxLayout):
                     self.grid_manager.button_list[top_row_iter].set_display_text(key)
             elif isinstance(command, EnterCurrentRoomCommand):
                 self.grid_manager.set_button_command_and_text(14, key, command)
+            elif isinstance(command, OneVsOneFightCommand):
+                top_row_iter += 1
+                self.grid_manager.button_list[top_row_iter].set_command(command)
+                self.grid_manager.button_list[top_row_iter].set_display_text(key)
             else:
                 print("Unhandled Command")
 
