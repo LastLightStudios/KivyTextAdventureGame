@@ -46,13 +46,12 @@ class DynamicStatBar(BoxLayout):
 
 
 class CharacterStatBlockDisplay(BoxLayout):
-    character_name = StringProperty("Player")
-    stat_dict = {}
 
     def __init__(self, **kwargs):
         super(CharacterStatBlockDisplay, self).__init__(**kwargs)
+        self.character_name = StringProperty("Player")
         health_bar = DynamicStatBar()
-        self.stat_dict["Health_Bar"] = health_bar
+        self.stat_dict = {"Health_Bar": health_bar}
         self.add_widget(health_bar)
         GameState.register("Health Change", self)
 
