@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from CharacterManager import CharacterManager
-from DialogueManager import DialogueManager
-from RoomManager import RoomManager
+from Game.CharacterManager import CharacterManager
+from Game.CombatManager import CombatManager
+from Game.DialogueManager import DialogueManager
+from Game.RoomManager import RoomManager
 
 event_callbacks = defaultdict(list)
 room_manager = RoomManager()
 character_manager = CharacterManager()
+combat_manager = CombatManager()
 dialogue_manager = DialogueManager()
 game_phase = "Room"
 
@@ -28,3 +30,8 @@ def change_game_phase(new_phase):
 
 def enter_combat_with(enemy_list):
     publish("Enter Combat", {"Enemies": enemy_list})
+
+def win_combat():
+    # show "win combat"
+    # adds enter room button
+    pass

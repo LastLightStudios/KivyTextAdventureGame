@@ -4,15 +4,13 @@ kivy.require('2.0.0')
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.widget import Widget
 
 """ View info """
 from ContextMenu import DynamicButton
 
 """ Model info """
-import GameState
-from Commands import InteractCommand
+from Game import GameState
+from Game.Commands import InteractCommand
 
 """
 
@@ -36,7 +34,6 @@ class KivyCharacterManager(BoxLayout):
     def listener_event(self, info):
         if "Commands" in info:
             self.update_character_list(info["Commands"])
-
 
     def change_display_text(self, new_text):
         self.display_text = new_text

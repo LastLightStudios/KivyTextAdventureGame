@@ -1,15 +1,10 @@
 import kivy
 
-import GameState
+from Game import GameState
 
 kivy.require('2.0.0')
-from kivy.graphics import *
-from kivy.properties import ListProperty, NumericProperty, ObjectProperty,  StringProperty
+from kivy.properties import ListProperty, NumericProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.label import Label
-from kivy.uix.widget import Widget
 
 
 class DynamicStatBar(BoxLayout):

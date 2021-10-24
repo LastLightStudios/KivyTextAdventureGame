@@ -3,8 +3,8 @@ from __future__ import annotations
 import jsonpickle
 from dataclasses import dataclass, field
 from pathlib import Path
-from Commands import EnterCurrentRoomCommand, OneVsOneFightCommand
-import GameState
+from Game.Commands import EnterCurrentRoomCommand, OneVsOneFightCommand
+import Game.GameState as GameState
 
 @dataclass
 class Character(object):
