@@ -1,6 +1,7 @@
 import kivy
 kivy.require('2.0.0')
 from kivy.app import App
+from kivy.lang.builder import Builder
 from kivy.properties import StringProperty
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.widget import Widget
@@ -9,6 +10,7 @@ from Containers import GameContainer
 # importing Widgets that PyCharm shows as unused. They are used in the kv file
 from ContextMenu import GridManager
 
+Builder.load_file("test.kv")
 
 class ScrollableWidget(ScrollView):
     text = StringProperty('Welcome \n')

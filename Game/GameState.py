@@ -30,8 +30,3 @@ def change_game_phase(new_phase):
 
 def enter_combat_with(enemy_list):
     publish("Enter Combat", {"Enemies": enemy_list})
-
-def win_combat():
-    # show "win combat"
-    # adds enter room button
-    pass
