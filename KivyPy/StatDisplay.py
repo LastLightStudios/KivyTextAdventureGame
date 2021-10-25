@@ -1,6 +1,6 @@
 import kivy
 
-import Game.GameState as GameState
+from Game import GameState
 
 kivy.require('2.0.0')
 from kivy.properties import ListProperty, NumericProperty, StringProperty

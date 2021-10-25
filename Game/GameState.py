@@ -2,12 +2,14 @@ from __future__ import annotations
 
 from collections import defaultdict
 from Game.CharacterManager import CharacterManager
+from Game.CombatManager import CombatManager
 from Game.DialogueManager import DialogueManager
 from Game.RoomManager import RoomManager
 
 event_callbacks = defaultdict(list)
 room_manager = RoomManager()
 character_manager = CharacterManager()
+combat_manager = CombatManager()
 dialogue_manager = DialogueManager()
 game_phase = "Room"
 

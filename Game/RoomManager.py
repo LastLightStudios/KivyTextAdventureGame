@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 import jsonpickle
-from Game import GameState
+import Game.GameState as GameState
 
 from Game.Commands import InteractCommand, TravelCommand
 
@@ -50,7 +50,7 @@ class RoomManager:
             self.room_map = map_obj
 
     def save(self, file_path):
-        temp_string = jsonpickle.encode(room_map, indent=4, keys=True)
+        temp_string = jsonpickle.encode(self.room_map, indent=4, keys=True)
         with open(file_path, "w") as save_file:
             self.save_file.write(temp_string)
 
@@ -63,7 +63,7 @@ class RoomManager:
             print(new_room.name + "already exists")
             return False
         else:
-            room_map.rooms[new_room.name] = new_room
+            self.room_map.rooms[new_room.name] = new_room
             print(new_room.name + " added to rooms")
             if self.room_map.current_room is None:
                 self.room_map.current_room = new_room

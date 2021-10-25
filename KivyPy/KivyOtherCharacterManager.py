@@ -6,10 +6,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 
 """ View info """
-from KivyPy.ContextMenu import DynamicButton
+from ContextMenu import DynamicButton
 
 """ Model info """
-import Game.GameState as GameState
+from Game import GameState
 from Game.Commands import InteractCommand
 
 """
@@ -34,7 +34,6 @@ class KivyCharacterManager(BoxLayout):
     def listener_event(self, info):
         if "Commands" in info:
             self.update_character_list(info["Commands"])
-
 
     def change_display_text(self, new_text):
         self.display_text = new_text

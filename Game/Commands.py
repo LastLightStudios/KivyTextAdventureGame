@@ -28,7 +28,7 @@ class OneVsOneFightCommand(Command):
         self.enemy = enemy
 
     def execute(self) -> None:
-        self.game_state.enter_combat_with(self.enemy)
+        self.game_state.combat_manager.enter_combat_with(self.enemy)
 
 
 class TempChangeHPCommand(Command):
