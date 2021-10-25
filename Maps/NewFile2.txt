@@ -1,8 +1,8 @@
 {
-    "py/object": "RoomManager.RoomMap",
+    "py/object": "Game.RoomManager.RoomMap",
     "rooms": {
         "Home": {
-            "py/object": "RoomManager.Room",
+            "py/object": "Game.RoomManager.Room",
             "name": "Home",
             "owner": {
                 "py/id": 0
@@ -10,7 +10,7 @@
             "description": "This is the starting room.",
             "connected_rooms": {
                 "Left": {
-                    "py/object": "RoomManager.Room",
+                    "py/object": "Game.RoomManager.Room",
                     "name": "Left Room",
                     "owner": {
                         "py/id": 0
@@ -27,7 +27,7 @@
                 "Mama"]
                 },
                 "Right": {
-                    "py/object": "RoomManager.Room",
+                    "py/object": "Game.RoomManager.Room",
                     "name": "Right Room",
                     "owner": {
                         "py/id": 0
@@ -38,7 +38,7 @@
                             "py/id": 2
                         },
                         "Forward": {
-                            "py/object": "RoomManager.Room",
+                            "py/object": "Game.RoomManager.Room",
                             "name": "Kitchen",
                             "owner": {
                                 "py/id": 0
@@ -49,7 +49,7 @@
                                     "py/id": 8
                                 },
                                 "Left": {
-                                    "py/object": "RoomManager.Room",
+                                    "py/object": "Game.RoomManager.Room",
                                     "name": "Living Room",
                                     "owner": {
                                         "py/id": 0
@@ -88,7 +88,7 @@
             "py/id": 8
         },
         "Porch": {
-            "py/object": "RoomManager.Room",
+            "py/object": "Game.RoomManager.Room",
             "name": "Porch",
             "owner": {
                 "py/id": 0
