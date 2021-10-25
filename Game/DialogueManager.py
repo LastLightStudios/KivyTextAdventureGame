@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import json
-import GameState
-from Commands import DirectDialogueCommand, EnterCurrentRoomCommand
+import Game.GameState as GameState
+from Game.Commands import DirectDialogueCommand, EnterCurrentRoomCommand
 
 
 @dataclass

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from CharacterManager import CharacterManager
-from DialogueManager import DialogueManager
-from RoomManager import RoomManager
+from Game.CharacterManager import CharacterManager
+from Game.DialogueManager import DialogueManager
+from Game.RoomManager import RoomManager
 
 event_callbacks = defaultdict(list)
 room_manager = RoomManager()

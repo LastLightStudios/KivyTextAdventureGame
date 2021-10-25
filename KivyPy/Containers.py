@@ -6,15 +6,13 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 
-from StatDisplay import CharacterStatBlockDisplay, DynamicStatBar  # surprised i dont need to import the context menu?
+from StatDisplay import CharacterStatBlockDisplay  # surprised i dont need to import the context menu?
 from KivyOtherCharacterManager import KivyCharacterManager
 
-import GameState
-import RoomManager
-import DialogueManager
-from CharacterManager import Character
-from Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempChangeHPCommand
-from Commands import TempChangePhaseCommand, OneVsOneFightCommand
+from Game import GameState
+from Game.CharacterManager import Character
+from Game.Commands import DirectDialogueCommand, EnterCurrentRoomCommand, InteractCommand, TravelCommand, TempChangeHPCommand
+from Game.Commands import TempChangePhaseCommand, OneVsOneFightCommand
 
 
 class LeftPanelWidget(Widget):
@@ -84,11 +82,13 @@ class CenterPanelWidget(BoxLayout):
 
 
 class GameContainer(BoxLayout):
+    """
+    These ObjectProperties get assigned in test.kv
+    """
     left_panel = ObjectProperty()
     right_panel = ObjectProperty()
     scrollable_widget = ObjectProperty()
     grid_manager = ObjectProperty()
-    character_display = ObjectProperty()
 
     def __init__(self, **kwargs):
         super(GameContainer, self).__init__(**kwargs)
@@ -126,10 +126,6 @@ class GameContainer(BoxLayout):
             self.update_context_menu(info["Commands"])
         if "Log" in info:
             self.update_log(info["Log"])
-
-    # only used on setup for now
-    def temp_set_hp(self, current_hp, max_hp):
-        self.character_display.update_health(current_hp, max_hp)
 
     def enter_current_room(self):
         self.update_view_info({"Commands": self.room_manager.room_map.current_room.get_room_command_dict(),

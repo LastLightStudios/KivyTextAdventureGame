@@ -4,15 +4,13 @@ kivy.require('2.0.0')
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.widget import Widget
 
 """ View info """
-from ContextMenu import DynamicButton
+from KivyPy.ContextMenu import DynamicButton
 
 """ Model info """
-import GameState
-from Commands import InteractCommand
+import Game.GameState as GameState
+from Game.Commands import InteractCommand
 
 """
 

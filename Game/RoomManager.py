@@ -1,9 +1,9 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 import jsonpickle
-import GameState
+from Game import GameState
 
-from Commands import InteractCommand, TravelCommand
+from Game.Commands import InteractCommand, TravelCommand
 
 
 @dataclass
