@@ -4,7 +4,7 @@ import jsonpickle
 from dataclasses import dataclass, field
 from pathlib import Path
 from Game.Commands import EnterCurrentRoomCommand, OneVsOneFightCommand
-from Game.Cards import PassCard, TempWinCard
+from Game.Cards import PassCard, TempWinCard, TempDealDMGCard
 import Game.GameState as GameState
 
 
@@ -28,7 +28,7 @@ class Character(object):
         log = "Health Changed"
         self.health += amount
         if self.health <= 0 and amount < 0:
-            log = "Stop, you're already dead!"
+            log = self.name + " is already dead!"
         elif self.health > self.max_health:
             log = "You look bloated."
         GameState.publish("Health Change", {self.name: self.health})
@@ -58,8 +58,11 @@ class Character(object):
 
     def get_temp_pc_attacks(self):
         command_dict = {"Pass": PassCard(GameState, self),
+                        "Attack": TempDealDMGCard(GameState, self),
                         "Win": TempWinCard(GameState)}
         return command_dict
+
+    #"Attack": TempDealDMGCard(GameState, self, GameState.character_manager.character_dict["Joanna"])
 
     def get_temp_npc_attacks(self):
         command_dict = {"Pass": PassCard(GameState, self)}
