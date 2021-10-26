@@ -10,10 +10,8 @@ class Command(ABC):
     def __init__(self, *args):
     *args will be passed in from the Model. The Model creates the command.
 
-    def execute(self, client) -> None:
-    client is a callback to pass the information to the View
-    execute should call something like
-    manager.function(*args, client.callback)
+    def execute(self) -> None:
+    This executes the function that will change data within the Model.
     """
 
     @abstractmethod

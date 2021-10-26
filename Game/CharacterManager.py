@@ -4,7 +4,9 @@ import jsonpickle
 from dataclasses import dataclass, field
 from pathlib import Path
 from Game.Commands import EnterCurrentRoomCommand, OneVsOneFightCommand
+from Game.Cards import PassCard, TempWinCard
 import Game.GameState as GameState
+
 
 @dataclass
 class Character(object):
@@ -45,6 +47,22 @@ class Character(object):
     def get_temp_dict(self):
         command_dict = {"Back": EnterCurrentRoomCommand(GameState)}
         ## will add battle commands
+        return command_dict
+
+    def take_turn(self):
+        if self.name == "Player":
+            print("test")
+            GameState.publish("Commands", {"Commands": self.get_temp_pc_attacks()})
+        else:
+            PassCard(GameState, self).execute()
+
+    def get_temp_pc_attacks(self):
+        command_dict = {"Pass": PassCard(GameState, self),
+                        "Win": TempWinCard(GameState)}
+        return command_dict
+
+    def get_temp_npc_attacks(self):
+        command_dict = {"Pass": PassCard(GameState, self)}
         return command_dict
 
 

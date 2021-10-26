@@ -38,7 +38,7 @@ class RightPanelWidget(Widget):
         GameState.register("Enter Combat", self)
 
     def listener_event(self, info):
-        print("Caught")
+        print("Caught in right panel container")
         if "Phase" in info:
             if info["Phase"] == "Room":
                 self.clear_widgets()
@@ -135,8 +135,7 @@ class GameContainer(BoxLayout):
     def update_context_menu(self, command_dict):
         self.grid_manager.clear_buttons()
         top_row_iter = 0
-        """
-        placeholder testing commands
+        """ placeholder testing commands """
         """
         # decrease hp
         self.grid_manager.button_list[4].set_command(
@@ -153,8 +152,8 @@ class GameContainer(BoxLayout):
         self.grid_manager.button_list[8].set_command(TempChangePhaseCommand(GameState, "Combat"))
         self.grid_manager.button_list[8].set_display_text("Combat")
         """
-        real dynamic commands
-        """
+
+        """ real dynamic commands """
         for key, command in command_dict.items():
             if isinstance(command, InteractCommand):
                 pass
@@ -172,20 +171,27 @@ class GameContainer(BoxLayout):
                 self.grid_manager.button_list[self.convert_dir_to_button(key)].set_display_text(key)
             elif isinstance(command, DirectDialogueCommand):
                 if self.grid_manager.button_list[top_row_iter].has_command():
-                    top_row_iter += 1
                     self.grid_manager.button_list[top_row_iter].set_command(command)
                     self.grid_manager.button_list[top_row_iter].set_display_text(key)
+                    top_row_iter += 1
                 else:
                     self.grid_manager.button_list[top_row_iter].set_command(command)
                     self.grid_manager.button_list[top_row_iter].set_display_text(key)
+                    top_row_iter += 1
             elif isinstance(command, EnterCurrentRoomCommand):
                 self.grid_manager.set_button_command_and_text(14, key, command)
             elif isinstance(command, OneVsOneFightCommand):
-                top_row_iter += 1
                 self.grid_manager.button_list[top_row_iter].set_command(command)
                 self.grid_manager.button_list[top_row_iter].set_display_text(key)
+                top_row_iter += 1
             else:
-                print("Unhandled Command")
+                print("Making commands in position " + str(top_row_iter) + " with name " + str(key))
+                self.grid_manager.button_list[top_row_iter].set_command(command)
+                self.grid_manager.button_list[top_row_iter].set_display_text(key)
+                top_row_iter += 1
+                if top_row_iter >= 6:
+                    print("Possibly overwrote the forward command")
+                print("Unhandled Command, hopefully doesn't overwrite another Command")
 
     @staticmethod
     def convert_dir_to_button(direction):
