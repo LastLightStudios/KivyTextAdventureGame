@@ -19,9 +19,9 @@ class DynamicStatBar(BoxLayout):
 
     def __init__(self, **kwargs):
         super(DynamicStatBar, self).__init__(**kwargs)
-        self.bind(size=self.update_bar_visual)
         self.set_max_value(100)
         self.set_current_value(50)
+        self.bind(size=self.update_bar_visual)
 
     # for some reason the size is getting called again after everything is made and messing everything up
     def update_bar_visual(self, *args):

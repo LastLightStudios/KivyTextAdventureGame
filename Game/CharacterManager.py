@@ -9,7 +9,7 @@ import Game.GameState as GameState
 @dataclass
 class Character(object):
     name: str = ""
-    health: int = 50
+    health: int = 40
     max_health: int = 100
     second_health: int = 50
     intro_text: str = ""
@@ -51,9 +51,12 @@ class Character(object):
 @dataclass()
 class CharacterManager:
     character_dict: dict = field(default_factory=dict)
+    """ I don't know if this \/ is staying """
+    player_party_dict: dict = field(default_factory=dict)
 
     def __post_init__(self):
         self.character_dict = {"Player": Character(name="Player")}
+        self.player_party_dict = {"Player": Character(name="Player")}
 
     def load(self, file_path):
         with open(file_path, "r") as load_file:

@@ -13,6 +13,9 @@ combat_manager = CombatManager()
 dialogue_manager = DialogueManager()
 game_phase = "Room"
 
+"""
+"""
+
 
 def register(event_type, observer):
     event_callbacks[event_type].append(observer)
@@ -27,6 +30,3 @@ def change_game_phase(new_phase):
     global game_phase
     game_phase = new_phase
     publish("Phase Change", {"Phase": new_phase})
-
-def enter_combat_with(enemy_list):
-    publish("Enter Combat", {"Enemies": enemy_list})

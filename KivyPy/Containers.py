@@ -98,14 +98,12 @@ class GameContainer(BoxLayout):
         GameState.character_manager.character_dict["Joanna"] = Character(name="Joanna",
                                                                          intro_text="I'm Joanna, how are you?")
         GameState.character_manager.character_dict["Steve"] = Character(name="Steve", intro_text="Sup, I'm Steve")
-        GameState.character_manager.character_dict["Joe"] = Character(name="Steve", intro_text="It's Joe")
-        GameState.character_manager.character_dict["Mama"] = Character(name="Steve", intro_text="And I'm Mama")
+        GameState.character_manager.character_dict["Joe"] = Character(name="Joe", intro_text="It's Joe")
+        GameState.character_manager.character_dict["Mama"] = Character(name="Mama", intro_text="And I'm Mama")
         self.enter_current_room()
-        # self.temp_set_hp(GameState.character_manager.character_dict["Player"].get_stats()["Health"],
-        # GameState.character_manager.character_dict["Player"].get_stats()["Max Health"])
-        # this one probably gets moved down to the scrollable widget - which is currently sitting in main
+        # this one probably gets moved down to the scrollable widget (Log) - which is currently sitting in main
         GameState.register("Log", self)
-        # this one probably gets moved down to commands later
+        # this one probably gets moved down to context menu later
         GameState.register("Commands", self)
 
     def listener_event(self, info):
@@ -116,7 +114,7 @@ class GameContainer(BoxLayout):
                 else:
                     self.scrollable_widget.add_text(info["Log"])
             else:
-                print("Need to add clear to this Log in info")
+                print("Need to add ['Clear']  as True or False to this Log")
         if "Commands" in info:
             self.update_context_menu(info["Commands"])
 
