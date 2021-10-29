@@ -68,7 +68,7 @@ class RightPanelWidget(Widget):
         layout = BoxLayout(orientation="vertical", pos=self.pos, size=self.size)
         new_char_stat = CharacterStatBlockDisplay(size_hint_y=0.2)
         new_char_stat.change_character_name(enemy_list[0].name)
-        new_char_stat.init_health(enemy_list[0].max_health)
+        new_char_stat.update_health(enemy_list[0].health, enemy_list[0].max_health)
         layout.add_widget(new_char_stat)
         layout.add_widget(Button(text="room details", size_hint_y=0.4))
         layout.add_widget(Button(text="more stuff", size_hint_y=0.3))
@@ -191,7 +191,6 @@ class GameContainer(BoxLayout):
                 top_row_iter += 1
                 if top_row_iter >= 6:
                     print("Possibly overwrote the forward command")
-                print("Unhandled Command, hopefully doesn't overwrite another Command")
 
     @staticmethod
     def convert_dir_to_button(direction):

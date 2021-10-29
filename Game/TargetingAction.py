@@ -12,7 +12,6 @@ class TargetingAction(Command):
     def __init__(self, game_state):
         self.game_state = game_state
 
-
     """
     Execute() is triggered either by the button press or the AI.
     In the case of the Button press, there can be multiple variants of the action.
@@ -28,6 +27,7 @@ class TargetingAction(Command):
     def execute(self) -> None:
         self.game_state.combat_manager.process_turn(self)
 
+
 class SingleTargetAction(TargetingAction):
 
     def __init__(self, game_state, card, target):
@@ -37,4 +37,3 @@ class SingleTargetAction(TargetingAction):
 
     def execute(self) -> None:
         self.card.process(self.target)
-

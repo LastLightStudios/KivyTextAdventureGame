@@ -11,7 +11,7 @@ import Game.GameState as GameState
 @dataclass
 class Character(object):
     name: str = ""
-    health: int = 40
+    health: int = 90
     max_health: int = 100
     second_health: int = 50
     intro_text: str = ""

@@ -9,7 +9,7 @@
         text: root.display_text
         halign: "left"
     FloatLayout:
-        id: fill_bar
+        size_hint_y: 0.7
         Label:
             pos: root.pos
             canvas.before:
@@ -19,12 +19,13 @@
                     pos: root.pos
                     size: self.size
         Label:
+            id: fill_bar
             canvas.before:
                 Color:
                     rgb: root.foreground_color
                 RoundedRectangle:
                     pos: root.pos
-                    size: root.current_size
+                    size: self.size
         Label:
             text: root.display_value
             pos: root.pos

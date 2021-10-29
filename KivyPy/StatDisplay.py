@@ -25,9 +25,7 @@ class DynamicStatBar(BoxLayout):
 
     # for some reason the size is getting called again after everything is made and messing everything up
     def update_bar_visual(self, *args):
-        #print(str(self.fill_bar.size))
-        self.current_size = [self.current_percent * self.fill_bar.size[0], self.fill_bar.size[1]]
-        #print(str(self.current_size))
+        self.fill_bar.size_hint = [self.current_percent, 1]
         self.display_value = str(self.current_value) + "/" + str(self.maximum_value)
 
     def set_max_value(self, value):

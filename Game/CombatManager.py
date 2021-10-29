@@ -83,7 +83,7 @@ class CombatManager:
         this will check WinCond
         this is called when the turn is completed and will enqueue the first and then pop it
         """
-        if all((enemy.health < 0) for enemy in self.enemy_party):
+        if all((enemy.health <= 0) for enemy in self.enemy_party):
             self.is_won = True
 
         if self.is_won is True:

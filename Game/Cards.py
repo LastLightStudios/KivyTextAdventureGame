@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from Game.Commands import Command
-import Game.BattleAction as BA
+import Game.TargetingAction as BA
 
 
 class Card(Command):
@@ -70,6 +70,7 @@ class TempDealDMGCard(Card):
         self.game_state.combat_manager.process_turn(self)
 
     def perform(self) -> bool:
+        self.target.modify_health(-10)
         self.game_state.publish("Log", {"Log": self.source.name +
                                                " attacks " + self.target.name, "Clear": False})
         return True
