@@ -8,6 +8,7 @@ from kivy.uix.widget import Widget
 
 from StatDisplay import CharacterStatBlockDisplay  # surprised i dont need to import the context menu?
 from KivyOtherCharacterManager import KivyCharacterManager
+from KivyPartyStatBlockManager import PartyStatBlockDisplayManager
 
 from Game import GameState
 from Game.CharacterManager import Character
@@ -64,13 +65,17 @@ class RightPanelWidget(Widget):
         layout.add_widget(Button(text="more stuff", size_hint_y=0.3))
         self.add_widget(layout)
 
+    """Expecting to receive a list of characters b/c this is now Kivy side and cannot query"""
     def create_encounter_panel(self, enemy_list):
         layout = BoxLayout(orientation="vertical", pos=self.pos, size=self.size)
-        new_char_stat = CharacterStatBlockDisplay(size_hint_y=0.2)
+        stats = PartyStatBlockDisplayManager()
+        layout.add_widget(stats)
+        stats.update_character_list(enemy_list)
+        """new_char_stat = CharacterStatBlockDisplay(size_hint_y=0.2)
         new_char_stat.change_character_name(enemy_list[0].name)
         new_char_stat.update_health(enemy_list[0].health, enemy_list[0].max_health)
-        layout.add_widget(new_char_stat)
-        layout.add_widget(Button(text="room details", size_hint_y=0.4))
+        layout.add_widget(new_char_stat)"""
+        layout.add_widget(Button(text="room details", size_hint_y=0.2))
         layout.add_widget(Button(text="more stuff", size_hint_y=0.3))
         self.add_widget(layout)
 

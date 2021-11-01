@@ -1,7 +1,7 @@
 import kivy
 
 kivy.require('2.0.0')
-from kivy.properties import ObjectProperty, StringProperty
+from kivy.properties import NumericProperty, ObjectProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 
@@ -52,7 +52,12 @@ class KivyCharacterManager(BoxLayout):
 
 
 class ListScrollManager(GridLayout):
+    content_per_page = NumericProperty(5)
     button_list = []
 
     def __init__(self, **kwargs):
         super(ListScrollManager, self).__init__(**kwargs)
+
+    """ this changes how many things can fit in the page"""
+    def change_content_size(self, new_num):
+        self.content_per_page = new_num

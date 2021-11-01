@@ -1,4 +1,5 @@
 import kivy
+
 kivy.require('2.0.0')
 from kivy.app import App
 from kivy.lang.builder import Builder
@@ -11,6 +12,7 @@ from Containers import GameContainer
 from ContextMenu import GridManager
 
 Builder.load_file("test.kv")
+
 
 class ScrollableWidget(ScrollView):
     text = StringProperty('Welcome \n')

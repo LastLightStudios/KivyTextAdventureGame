@@ -46,7 +46,7 @@ class CombatManager:
         GameState.publish("Log", {"Log": initiative_string, "Clear": False})
 
         """
-        takes enemy list
+        takes enemy list (Character objects, not just names)
         GameState.publish("Enter Combat", {"Enemies": enemy_list})
         this line triggers the right panel to create the combat panel
         """

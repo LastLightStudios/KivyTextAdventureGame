@@ -45,7 +45,7 @@
 <ListScrollManager>
     size_hint_y: None
     height: self.minimum_height
-    row_default_height: root.size[0] / 5
+    row_default_height: root.size[0] / root.content_per_page
     cols:1
 
 <KivyCharacterManager>
@@ -57,6 +57,17 @@
     ScrollView:
         ListScrollManager:
             id: list_scroll_manager
+
+<PartyStatBlockDisplayManager>
+    list_scroll_manager: list_scroll_manager
+    orientation: 'vertical'
+    Button:
+        text: root.display_text
+        size_hint_y: 0.25
+    ScrollView:
+        ListScrollManager:
+            id: list_scroll_manager
+
 
 <GameContainer>:
     left_panel: left_panel
@@ -106,10 +117,10 @@
         	pos: root.right_panel.pos
             orientation: 'vertical'
             KivyCharacterManager:
-                size_hint_y: 0.2
+                size_hint_y: 0.4
             Button:
                 text: 'enemy details'
-                size_hint_y: 0.4
+                size_hint_y: 0.2
             Button:
                 text: 'idk fam'
                 size_hint_y: 0.3
