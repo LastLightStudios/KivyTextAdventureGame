@@ -203,3 +203,6 @@ class Room(object):
         for name in self.characters:
             command_dict[name] = InteractCommand(GameState, GameState.character_manager.character_dict[name])
         return command_dict
+
+    def get_character_names(self):
+        return self.characters

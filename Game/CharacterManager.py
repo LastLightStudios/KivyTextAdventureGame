@@ -3,7 +3,7 @@ from __future__ import annotations
 import jsonpickle
 from dataclasses import dataclass, field
 from pathlib import Path
-from Game.Commands import EnterCurrentRoomCommand, OneVsOneFightCommand
+from Game.Commands import EnterCurrentRoomCommand, OneVsOneFightCommand, OneVsManyFightCommand
 from Game.Cards import PassCard, TempWinCard, TempDealDMGCard
 import Game.GameState as GameState
 
@@ -18,11 +18,14 @@ class Character(object):
     dialogue_options_list: list = field(default_factory=list)
     command_list: dict = field(default_factory=dict)
 
+    def is_dead(self):
+        if self.health <= 0:
+            return True
+        else:
+            return False
+
     def get_intro_text(self):
         return self.intro_text
-
-    def get_stats(self):
-        return {"Health": self.health, "Max Health": self.max_health}
 
     def modify_health(self, amount):
         log = "Health Changed"
@@ -36,10 +39,12 @@ class Character(object):
 
     def get_character_command_dict(self):
         command_dict = {"Back": EnterCurrentRoomCommand(GameState)}
-        file_path = Path("Dialogue/" + self.name + "Test.txt")
+        """temp commenting out the story stuff so we can add characters easily for now"""
+        """file_path = Path("Dialogue/" + self.name + "Test.txt")
         GameState.dialogue_manager.load_story(file_path)
-        command_dict.update(GameState.dialogue_manager.story.get_story_commands())
-        command_dict.update({"Fight": OneVsOneFightCommand(GameState, [self])})
+        command_dict.update(GameState.dialogue_manager.story.get_story_commands())"""
+        command_dict.update({"Fight": OneVsOneFightCommand(GameState, [self.name])})
+        command_dict.update({"Fight Room": OneVsManyFightCommand(GameState, GameState.room_manager.room_map.current_room.get_character_names())})
         # add fight here?
         # for string in self.dialogue_options_list:
         return command_dict
@@ -51,7 +56,6 @@ class Character(object):
 
     def take_turn(self):
         if self.name == "Player":
-            print("test")
             GameState.publish("Commands", {"Commands": self.get_temp_pc_attacks()})
         else:
             PassCard(GameState, self).execute()

@@ -24,8 +24,9 @@ class CombatManager:
     def get_enemy_list(self):
         return self.enemy_party
 
-    def enter_combat_with(self, enemy_list):
+    def enter_combat_with(self, name_list):
         self.is_won = False
+        enemy_list = []
         """clear commands"""
         """ queries for characters in encounter """
         """ """
@@ -34,10 +35,11 @@ class CombatManager:
         self.init_list.append(GameState.character_manager.character_dict["Player"])
         self.init_queue.append(GameState.character_manager.character_dict["Player"])
         initiative_string = "\n Initiative: "
-        for enemy in enemy_list:
-            self.init_list.append(enemy)
-            self.init_queue.append(enemy)
-            self.enemy_party.append(enemy)
+        for name in name_list:
+            enemy_list.append(GameState.character_manager.character_dict[name])
+            self.init_list.append(GameState.character_manager.character_dict[name])
+            self.init_queue.append(GameState.character_manager.character_dict[name])
+            self.enemy_party.append(GameState.character_manager.character_dict[name])
 
         for character in self.init_queue:
             initiative_string += character.name + ", "
@@ -83,7 +85,7 @@ class CombatManager:
         this will check WinCond
         this is called when the turn is completed and will enqueue the first and then pop it
         """
-        if all((enemy.health <= 0) for enemy in self.enemy_party):
+        if all((enemy.is_dead()) for enemy in self.enemy_party):
             self.is_won = True
 
         if self.is_won is True:

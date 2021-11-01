@@ -21,12 +21,22 @@ class Command(ABC):
 
 class OneVsOneFightCommand(Command):
 
-    def __init__(self, game_state, enemy):
+    def __init__(self, game_state, enemy_name):
         self.game_state = game_state
-        self.enemy = enemy
+        self.enemy_name = enemy_name
 
     def execute(self) -> None:
-        self.game_state.combat_manager.enter_combat_with(self.enemy)
+        self.game_state.combat_manager.enter_combat_with(self.enemy_name)
+
+
+class OneVsManyFightCommand(Command):
+
+    def __init__(self, game_state, enemy_names):
+        self.game_state = game_state
+        self.enemy_names = enemy_names
+
+    def execute(self) -> None:
+        self.game_state.combat_manager.enter_combat_with(self.enemy_names)
 
 
 class TempChangeHPCommand(Command):
